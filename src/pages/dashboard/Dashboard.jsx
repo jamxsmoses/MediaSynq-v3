@@ -8,8 +8,10 @@ import Loader2 from "../../components/loading2/Loader2";
 import "./Dashboard.css"
 import AgenciesChart from "./components/charts/agenciesPieChart/AgenciesChart";
 import { formatRate } from "../../components/functions/Functions";
-import QuarterChart from "./components/charts/QuarterChart.jsx/QuarterChart";
-
+import QuarterChart from "./components/charts/QuarterChart/QuarterChart";
+import YearChart from "./components/charts/yearlyChart/YearChart";
+import MonthChart from "./components/charts/monthChart/MonthChart";
+import Select from "../../components/Select";
 
 const Dashboard = () => {   
     const mpos = useMpoStore((state) => state.mpoData);
@@ -62,8 +64,8 @@ const Dashboard = () => {
     }
 
     return <>
-        <div className="hideScroll overflow-scroll w-full h-[100%] bg-black flex flex-col gap-[10px]">
-            <div className="w-full h-[45px] bg-[#001026] rounded-[10px] flex justify-between items-center px-[20px]">
+        <div className="hideScroll dashboard overflow-scroll w-full h-[100%] bg-black flex flex-col gap-[10px]">
+            <div className="w-full h-[45px] bg-[#001026] rounded-[10px] flex justify-between items-center px-[20px] xl:py-[5px] lg:py-[5px] py-[8px]">
                 <div className="text-white xl:text-[14px] lg:text-[12px] md:text-[11px] text-[10px] flex gap-x-[10px]">
                     <span>{balanceVisible ? "Hide Totals" : "Show Totals"}</span>
                     <img
@@ -71,7 +73,9 @@ const Dashboard = () => {
                     onClick={() => {setbalanceVisibility()}} 
                     src={balanceVisible ? balanceVisibleIcon : balanceHiddenIcon} alt="" />
                 </div>
-                <div></div>
+                <div className="flex items-center">
+
+                </div>
             </div>
 
             {/* Figures for large screen */}
@@ -97,7 +101,7 @@ const Dashboard = () => {
             {/* Figures for smaller screen */}
             <div className="w-full bg-black xl:hidden lg:hidden flex xl:flex-row lg:flex-row flex-col justify-between gap-[10px]">
                 <div className="w-full xl:h-[110px] lg:h-[110px] md:h-[85px] h-[80px] flex flex-row gap-[10px]">
-                    <div className="w-full h-full bg-[#001026] rounded-[10px] flex flex-col justify-center px-[20px]">
+                    <div className="xl:w-full lg:w-full md:w-full sm:w-full w-[60%] h-full bg-[#001026] rounded-[10px] flex flex-col justify-center px-[20px]">
                         <Totals balanceVisible={balanceVisible} title="Gross Total" value={`₦${formatRate(grossTotal)}`}/>
                     </div>
                     <div className="w-full h-full bg-[#001026] rounded-[10px] flex flex-col justify-center px-[20px]">
@@ -105,7 +109,7 @@ const Dashboard = () => {
                     </div>
                 </div>
                 <div className="w-full xl:h-[110px] lg:h-[110px] md:h-[85px] h-[80px] flex flex-row gap-[10px]">
-                    <div className="w-full xl:h-[110px] lg:h-[110px] md:h-[85px] h-[80px] bg-[#001026] rounded-[10px] flex flex-col justify-center px-[20px]">
+                    <div className="xl:w-full lg:w-full md:w-full sm:w-full w-[60%] xl:h-[110px] lg:h-[110px] md:h-[85px] h-[80px] bg-[#001026] rounded-[10px] flex flex-col justify-center px-[20px]">
                         <Totals balanceVisible={balanceVisible} title="Net Total" value={`₦${formatRate(netTotal)}`}/>
                     </div>
                     <div className="w-full xl:h-[110px] lg:h-[110px] md:h-[85px] h-[80px] bg-[#001026] rounded-[10px] flex flex-col justify-center px-[20px]">
@@ -118,19 +122,19 @@ const Dashboard = () => {
             <div className="w-full h-full flex box-border chartsContainer">
                 <div className="w-full h-full flex flex-col gap-[10px]">
                     <div className="w-full h-full flex xl:flex-row lg:flex-row flex-col gap-[10px]">
-                        <div className="xl:w-[50%] lg:w-[50%] xl:h-full lg:h-full h-[500px] bg-[#001026] rounded-[10px] p-[20px]">
-                            <AgenciesChart />
+                        <div className="chartsCon xl:w-[50%] lg:w-[50%] w-full xl:h-full lg:h-[550px] sm:h-[650px] h-[450px] bg-[#001026] rounded-[10px] p-[20px]">
+                            <YearChart />
                         </div>
-                        <div className="xl:w-[50%] lg:w-[50%] xl:h-full lg:h-full h-[500px] bg-[#001026] rounded-[10px] p-[20px]">
-                            <QuarterChart />
+                        <div className="chartsCon xl:w-[50%] lg:w-[50%] w-full xl:h-full lg:h-full md:h-[800px] h-[500px] bg-[#001026] rounded-[10px] p-[20px]">
+                            <MonthChart />
                         </div>
                     </div>
-                    <div className="w-full h-full flex xl:flex-row lg:flex-row flex-col gap-[10px]">
-                        <div className="xl:w-[50%] lg:w-[50%] xl:h-full lg:h-full h-[500px] bg-[#001026] rounded-[10px] p-[20px]">
+                    <div className="w-full h-full flex xl:flex-row flex-col gap-[10px]">
+                        <div className="chartsCon xl:w-[50%] w-full xl:h-full lg:h-[400px] md:h-full h-[750px] bg-[#001026] rounded-[10px] p-[20px]">
                             <AgenciesChart />
                         </div>
-                        <div className="xl:w-[50%] lg:w-[50%] xl:h-full lg:h-full h-[500px] bg-[#001026] rounded-[10px] p-[20px]">
-                            <AgenciesChart />
+                        <div className="chartsCon xl:w-[50%] w-full h-full bg-[#001026] rounded-[10px] p-[20px]">
+                            <QuarterChart />
                         </div>
                     </div>
                 </div>
