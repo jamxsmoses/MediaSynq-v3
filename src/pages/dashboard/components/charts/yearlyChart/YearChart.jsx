@@ -59,7 +59,7 @@ const YearChart = () => {
       <div className='w-full h-full flex flex-col gap-[60px]'>
         <div className='w-full h-[5%] flex items-start'>
             <div className='xl:w-[40%] lg:w-[40%] md:w-[40%] w-[50%] leading-[0.8]'>
-              <span className="!m-0  text-white xl:text-[14px] lg:text-[12px] md:text-[11px] text-[10px] font-medium animate__animated animate__fadeIn">INCOME PER YEAR</span>
+              <span className="!m-0  text-white xl:text-[14px] lg:text-[12px] md:text-[11px] text-[9px] font-medium animate__animated animate__fadeIn">INCOME PER YEAR</span>
             </div>
             <div className="filtersContainer w-full flex flex-row items-center justify-end gap-[10px]">
               <Select value={selectedAgency} onChange={setSelectedAgency}>

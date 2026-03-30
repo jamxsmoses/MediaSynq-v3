@@ -26,5 +26,9 @@ h1 {
 }
 
 .dashboard select option {
-  background-color: #001026;
+  background-color: black;
+}
+
+.authContainer input[type="checkbox"] {
+  accent-color: #008CFF; 
 }

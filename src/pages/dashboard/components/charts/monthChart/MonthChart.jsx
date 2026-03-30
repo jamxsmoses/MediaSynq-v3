@@ -50,8 +50,6 @@ const MonthChart = () => {
     }, {})
 );
 
-    console.log(mergedByMonth)
-
     
         for (let i = 0; i < mergedByMonth.length; i++) {
             mergedByMonth.forEach((mpo) => {
@@ -86,7 +84,6 @@ const MonthChart = () => {
         }
       };
 
-      console.log(mergedByMonth)
 
     return (
     <>
@@ -127,7 +124,7 @@ const MonthChart = () => {
                         }}
                         >
                         <CartesianGrid strokeDasharray="3 3" stroke={`#ffffff`} opacity={"20%"} />
-                        <XAxis dataKey="monthShort"  fontSize="11px" scale="band" />
+                        <XAxis dataKey="monthShort"  fontSize="10px" scale="band" />
                         <Area type="monotone" dataKey="lineTotal" fill="#59b4ff3b" stroke="#008CFF" />
                         <Tooltip content={CustomTooltip}/>
                         <Bar dataKey="netTotal" barSize={50} fill="#008CFF" />

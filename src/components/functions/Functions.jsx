@@ -22,3 +22,27 @@ export function formatRate(x) {
                 return `${xValue.toLocaleString("en-US")}.00`;
             }
 }
+
+export function uniqueYear(arr) {
+    const newArray = Array.from(
+        new Map(arr.map((mpo) => [mpo.year, mpo])).values()
+    );
+
+  return newArray;
+}
+
+export function uniqueAgencies(arr) {
+    const newArray = Array.from(
+        new Map(arr.map((mpo) => [mpo.agency, mpo])).values()
+    );
+
+    return newArray;
+}
+
+export function uniqueMonths(arr) {    
+    const newArray = Array.from(
+        new Map(arr.map((mpo) => [mpo.month, mpo])).values()
+    );
+
+    return newArray;
+} 

@@ -113,7 +113,7 @@ const QuarterChart = () => {
       <div className='w-full h-full flex flex-col gap-[60px]'>
         <div className='w-full h-[5%] flex items-start'>
             <div className='xl:w-[40%] lg:w-[40%] md:w-[40%] w-[50%] leading-[0.8]'>
-              <span className="!m-0  text-white xl:text-[14px] lg:text-[12px] md:text-[11px] text-[10px] font-medium animate__animated animate__fadeIn">INCOME PER QUARTER</span>
+              <span className="!m-0  text-white xl:text-[14px] lg:text-[12px] md:text-[11px] text-[9px] font-medium animate__animated animate__fadeIn">INCOME PER QUARTER</span>
             </div>
             <div className="filtersContainer w-full flex flex-row items-center justify-end gap-[10px]">
               <Select value={selectedYear} onChange={setSelectedYear}>
@@ -157,10 +157,10 @@ const QuarterChart = () => {
             }}
             >
             <CartesianGrid strokeDasharray="3 3" stroke={`#ffffff`} opacity={"20%"} />
-            <XAxis dataKey="quarter" fontSize="12px"/>
+            <XAxis dataKey="quarter" fontSize="11px"/>
             <Tooltip content={CustomTooltip} />
-            <Bar dataKey="lineTotal" fill="#008CFF" activeBar={{ fill: 'orangered', stroke: 'orangered'}} radius={[10, 10, 0, 0]} />
-            <Bar dataKey="netTotal" fill="#8dcbff" activeBar={{ fill: '#004680', stroke: '#004680'}} radius={[10, 10, 0, 0]} />
+            <Bar dataKey="lineTotal" fill="#008CFF" activeBar={{ fill: '#005eaa', stroke: '#005eaa'}} radius={[10, 10, 0, 0]} />
+            <Bar dataKey="netTotal" fill="#8dcbff" activeBar={{ fill: '#70a3ce', stroke: '#70a3ce'}} radius={[10, 10, 0, 0]} />
           </BarChart>
                     )
           }

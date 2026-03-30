@@ -5,10 +5,13 @@ import {
   browserLocalPersistence,
   browserSessionPersistence,
 } from "firebase/auth";
-import { collection, getDocs, doc, getDoc, query, where } from "firebase/firestore";
+import { doc, getDoc} from "firebase/firestore";
 import { auth, db } from "../../config/firebase-config";
 import { useAuthStore } from "../../store/authStore";
 import { useNavigate } from "react-router";
+import bgIcons from "./images/bgIcons.svg"
+import balanceHidden from "../../pages/auth/images/balanceHidden.svg"
+import balanceVisible from "../../pages/auth/images/balanceVisible.svg"
 
 function Auth() {
   const setUser = useAuthStore((state) => state.setUser);
@@ -18,6 +21,7 @@ function Auth() {
   const [keepMeSignedIn, setKeepMeSignedIn] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false)
   
   const navigate = useNavigate();
 
@@ -71,45 +75,52 @@ function Auth() {
 
   return (
     <>
-      <div className="w-full h-full bg-white flex justify-between items-center">
-        <div className="xl:w-[45%] lg:w-[65%] w-full h-full bg-white flex justify-center items-center">
-          <form onSubmit={handleLogin}>
-            <h2>Login</h2>
-
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              />
-
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              />
-
-            <label>
+      <div className="authContainer w-full h-full bg-white flex justify-between items-center">
+        <div className="w-full h-full bg-[#000712] overflow-hidden relative">
+          <div className="absolute w-full h-full z-1 top-0 left-0 opacity-[2%]" style={{backgroundImage: `url(${bgIcons})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center center'}}>
+          </div>
+          <div className="w-full h-full absolute z-2 flex items-center justify-center">
+            <form onSubmit={handleLogin} className="smooth xl:w-[25%] lg:w-[40%] md:w-[50%] sm:w-[60%] w-[80%] xl:h-[430px] lg:h-[420px] md:h-[400px] h-[380px] mx-auto bg-[#ffffffc4] flex flex-col justify-center gap-[20px] px-[30px] py-[60px] rounded-xl">
+              <div className="w-full flex justify-between items-center">
+                <h2 className="font-bold text-[18px] color-[#">Login</h2>
+                <div className="px-[10px] text-[14px] py-[5px] bg-[#001026] rounded-2xl"><span className="font-semibold text-[#ffffff]">Media</span><span className="text-[#008CFF]">Synq</span></div>
+              </div>
               <input
-                      type="checkbox"
-                      id="keepMeSignedIn"
-                      checked={keepMeSignedIn}
-                      onChange={(e) => setKeepMeSignedIn(e.target.checked)}
-                      />
-              Remember Me
-            </label>
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required className="w-full bg-white p-[10px] border-none outline-none rounded-[5px] shadow-xl xl:text-[16px] lg:text-[15px] md:text-[14px] text-[13px]"
+                />
 
-            <button type="submit" disabled={loading}>
-              {loading ? "Logging in..." : "Login"}
-            </button>
+              <div className="relative w-full h-auto">
+                <input
+                  type={passwordVisible ? "text" : "password"}
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required className="w-full bg-white p-[10px] border-none outline-none rounded-[5px] shadow-xl xl:text-[16px] lg:text-[15px] md:text-[14px] text-[13px]"
+                  />
+                    <img src={passwordVisible ? balanceHidden : balanceVisible} onClick={() => setPasswordVisible(!passwordVisible)} alt="" className="cursor-pointer absolute top-[50%] translate-y-[-50%] right-5 w-[20px]" />
+                  </div>
 
-            {error && <p style={{ color: "red" }}>{error}</p>}
-          </form>
-        </div>
-        <div className="xl:w-[55%] lg:w-[35%] w-[0%] h-full bg-[#001026]">
+              <label className="flex gap-[5px] items-center ">
+                <input
+                        type="checkbox"
+                        id="keepMeSignedIn"
+                        checked={keepMeSignedIn}
+                        onChange={(e) => setKeepMeSignedIn(e.target.checked)}
+                        />
+                        <span className="xl:text-[15px] lg:text-[15px] md:text-[14px] text-[13px]">Remember Me</span>
+              </label>
+              {/*  */}
+              <button type="submit" disabled={loading} className="cursor-pointer bg-[#008CFF] xl:text-[15px] lg:text-[15px] md:text-[14px] text-[13px] font-bold text-white py-[10px] rounded-[5px]">
+                {loading ? "Logging in..." : "Login"}
+              </button>
+
+              {error && <p className="xl:text-[15px] lg:text-[15px] md:text-[14px] text-[13px]" style={{ color: `${error ? "red" : "green"}` }}>{error ? "Invalid Email or Password" : "Login"}</p>}
+            </form>
+          </div>
         </div>
       </div>
     </>

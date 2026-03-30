@@ -101,13 +101,13 @@ function App() {
 
   return <>
     <div className='appContainer w-[100vw] h-[100vh] bg-black'>
-      <div className={`w-full h-[5%] bg-black ${!user ? "hidden" : "flex"} items-center justify-between`}>
+      <div className={`w-full h-[5%] ${!user ? "hidden" : "flex"} items-center justify-between`}>
         <div className="flex items-center justify-center xl:w-[135px] lg:w-[130px] md-w-[120px] h-[25px] md:w-[125px] sm:w-[100px] w-[85px] bg-[#008CFF] rounded-tr-[15px] rounded-br-[15px] xl:text-[15px] lg:text-[14px] md:text-[13px] text-[11px] font-semibold text-black">
             MediaSynq
           </div>
           <span className="text-[#008CFF] uppercase font-bold xl:text-[18px] lg:text-[16px] text-[14px] mr-[10px]">{pageName}</span>
       </div>
-      <div className={`w-full ${user ? "xl:h-[95%] lg:h-[95%] md:h-[95%] h-[89%]" : "h-full"} bg-black flex`}>
+      <div className={`w-full ${user ? "xl:h-[95%] lg:h-[95%] md:h-[95%] h-[89%]" : "h-full"} flex`}>
         <nav className={`xl:w-[65px] lg:w-[63px] w-[55px] ${user ? "xl:flex lg:flex md:flex hidden" : "hidden"} h-full flex justify-center`}>
           <Navbar pageName = {pageName}/>
         </nav>

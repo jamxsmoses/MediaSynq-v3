@@ -232,7 +232,7 @@ const AgencyPieChart = ({ mpos, data, selectedYear, setSelectedYear, selectedMon
         <div className='w-full h-full flex flex-col gap-[20px]'>
             <div className='w-full h-[5%] flex items-start'>
             <div className='xl:w-[40%] lg:w-[40%] md:w-[40%] w-[45%] leading-[0.8]'>
-              <span className="text-white xl:text-[14px] lg:text-[12px] md:text-[11px] text-[10px] font-medium animate__animated animate__fadeIn">INCOME PER AGENCY</span>
+              <span className="text-white xl:text-[14px] lg:text-[12px] md:text-[11px] text-[9px] font-medium animate__animated animate__fadeIn">INCOME PER AGENCY</span>
             </div>
             <div className="filtersContainer w-full flex flex-row items-center justify-end gap-[10px]">
               <Select value={selectedYear} onChange={setSelectedYear}>
@@ -293,7 +293,7 @@ const AgencyPieChart = ({ mpos, data, selectedYear, setSelectedYear, selectedMon
                                 x="200"
                                 y="190"
                                 textAnchor="middle"
-                                className="text-sm font-semibold fill-gray-600"
+                                className="xl:text-[14px] lg:text-[13px] md:text-[12px] text-[11px] font-semibold fill-gray-600"
                                 >
                                 Net Total
                                 </text>
@@ -301,7 +301,7 @@ const AgencyPieChart = ({ mpos, data, selectedYear, setSelectedYear, selectedMon
                                 x="200"
                                 y="215"
                                 textAnchor="middle"
-                                className="text-lg font-bold fill-gray-800"
+                                className="text-lg font-bold fill-gray-800 "
                                 >
                                 {formatLargeNumber(total)}
                                 </text>
@@ -327,12 +327,12 @@ const AgencyPieChart = ({ mpos, data, selectedYear, setSelectedYear, selectedMon
                                         className="w-4 h-4 rounded-full flex-shrink-0"
                                         style={{ backgroundColor: slice.color }}
                                         />
-                                    <span className="xl:text-[13px] lg:text-[12px] md:text-[12px] sm:text-[11px] text-[10px] font-medium text-gray-700 flex-1">
+                                    <span className="xl:text-[13px] lg:text-[12px] md:text-[12px] sm:text-[11px] text-[10px] font-medium text-gray-600 flex-1">
                                         {slice.agencyShort}
                                     </span>
                                     </div>
                                     <div className="flex items-center gap-4">
-                                    <span className="xl:text-[13px] lg:text-[12px] md:text-[12px] sm:text-[11px] text-[12px] text-gray-500">
+                                    <span className="xl:text-[13px] lg:text-[12px] md:text-[12px] sm:text-[11px] text-[10px] text-gray-500">
                                         {slice.percentage.toFixed(1)}%
                                     </span>
                                     </div>
@@ -346,9 +346,9 @@ const AgencyPieChart = ({ mpos, data, selectedYear, setSelectedYear, selectedMon
             
 
             {/* Tooltip for hovered slice */}
-            {/* {hoveredSlice !== null && (
+            {hoveredSlice !== null && (
                 <div
-                className="fixed bg-gray-900 text-white px-3 py-2 rounded-lg text-sm pointer-events-none z-50"
+                className="fixed bg-[rgba(167,214,252,0.90)] text-black p-[20px] rounded-lg text-sm pointer-events-none z-50"
                 style={{
                     left: '50%',
                     bottom: '20px',
@@ -360,7 +360,7 @@ const AgencyPieChart = ({ mpos, data, selectedYear, setSelectedYear, selectedMon
                     <div>{formatCurrency(slices[hoveredSlice].netTotal)}</div>
                     <div>{slices[hoveredSlice].percentage.toFixed(1)}% of total</div>
                     </div>
-                    )} */}
+                    )}
             </div>
         </div>
     </>
