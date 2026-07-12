@@ -3,6 +3,7 @@ import { useMpoStore } from '../../../../../store/mpoStore';
 import { formatRate } from '../../../../../components/functions/Functions';
 import Select from '../../../../../components/Select';
 import { useState } from 'react';
+import { uniqueAgencies, uniqueYear } from '../../../../../components/functions/Functions';
 
 // #endregion
 const QuarterChart = () => {
@@ -11,15 +12,50 @@ const QuarterChart = () => {
     mpo.month = mpo.month.toUpperCase()
   })
 
-  const uniqueYears = Array.from(
-    new Map(mpos.map((mpo) => [mpo.year, mpo])).values()
-  );
+  const uniqueYears = uniqueYear(mpos);
+  const uniqueAgency = uniqueAgencies(mpos);
 
-  const uniqueAgency = Array.from(
-    new Map(mpos.map((mpo) => [mpo.agency, mpo])).values()
-  );
+  uniqueAgency.forEach((mpo) => {
+        if (mpo.agency === "MEDIA PERSPECTIVES") {
+            mpo.agencyShort = "MP"
+        }
 
-  const [selectedYear, setSelectedYear] = useState("All Years")
+        if (mpo.agency === "PHD MEDIA") {
+            mpo.agencyShort = "PHD"
+        }
+
+        if (mpo.agency === "SIMPLY BLACK") {
+            mpo.agencyShort = "SYMPLY B"
+        }
+
+        if (mpo.agency === "MAXIMEDIA GLOBAL LIMITED") {
+            mpo.agencyShort = "MAXIMEDIA"
+        }
+
+        if (mpo.agency === "GLORYCAP LIMITED") {
+            mpo.agencyShort = "GLORYCAP"
+        }
+
+        if (mpo.agency === "TOLARAM LIMITED") {
+            mpo.agencyShort = "TOLARAM"
+        }
+
+        if (mpo.agency === "SUMMIT CREST MEDIA CONSULTING") {
+            mpo.agencyShort = "SUMMIT C."
+        }
+
+        if (mpo.agency === "OTB MEDIA CONCEPT LIMITED") {
+            mpo.agencyShort = "OTB MEDIA"
+        }
+
+        if (mpo.agency === "PROSPECTS MEDIA & COMMUNICATIONS") {
+            mpo.agencyShort = "PROSPECTS M&C"
+        }
+    })
+
+  
+  const currentYear = new Date().getFullYear();  
+  const [selectedYear, setSelectedYear] = useState(currentYear)
   const [selectedAgency, setSelectedAgency] = useState("All Agencies")
 
   let filteredMpoYears = selectedYear === "All Years" ? mpos : mpos.filter((mpo) => mpo.year === Number(selectedYear))
@@ -131,7 +167,7 @@ const QuarterChart = () => {
                 {
                   uniqueAgency.map((mpo) => (
                     <option key={uniqueAgency.indexOf(mpo)} value={mpo.agency}>
-                      {mpo.agency}
+                      {mpo.agencyShort}
                     </option>
                   ))
                 }
@@ -157,7 +193,7 @@ const QuarterChart = () => {
             }}
             >
             <CartesianGrid strokeDasharray="3 3" stroke={`#ffffff`} opacity={"20%"} />
-            <XAxis dataKey="quarter" fontSize="11px"/>
+            <XAxis dataKey="quarter" fontSize="10px"/>
             <Tooltip content={CustomTooltip} />
             <Bar dataKey="lineTotal" fill="#008CFF" activeBar={{ fill: '#005eaa', stroke: '#005eaa'}} radius={[10, 10, 0, 0]} />
             <Bar dataKey="netTotal" fill="#8dcbff" activeBar={{ fill: '#70a3ce', stroke: '#70a3ce'}} radius={[10, 10, 0, 0]} />

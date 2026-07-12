@@ -2,15 +2,16 @@ import { useMpoStore } from "../../../../../store/mpoStore"
 import { ComposedChart, Line, Bar, XAxis, Area, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { useState } from "react";
 import Select from "../../../../../components/Select";
-import { formatRate } from "../../../../../components/functions/Functions";
+import { formatRate, uniqueYear, uniqueAgencies } from "../../../../../components/functions/Functions";
 
 const MonthChart = () => {
     const mpos = useMpoStore((state) => state.mpoData)
-    const [selectedYear, setSelectedYear] = useState("All Years")
+    const currentYear = new Date().getFullYear();
+    const [selectedYear, setSelectedYear] = useState(currentYear);
+    const [selectedAgency, setSelectedAgegncy] = useState("All Agencies");
 
     mpos.forEach((mpo) => {
         mpo.month = mpo.month.toUpperCase();
-        
     })
 
     const months = [
@@ -29,14 +30,52 @@ const MonthChart = () => {
   ]
 
     const filteredYears = selectedYear === "All Years" ? mpos : mpos.filter((mpo) => mpo.year === Number(selectedYear))
+    const filteredAgencies = selectedAgency === "All Agencies" ? filteredYears : filteredYears.filter((mpo) => mpo.agency === selectedAgency);
 
-    const uniqueYears = Array.from(
-    new Map(mpos.map((mpo) => [mpo.year, mpo])).values()
-    );
+    const uniqueYears = uniqueYear(mpos);
+    const uniqueAgency = uniqueAgencies(mpos);
+
+    uniqueAgency.forEach((mpo) => {
+        if (mpo.agency === "MEDIA PERSPECTIVES") {
+            mpo.agencyShort = "MP"
+        }
+
+        if (mpo.agency === "PHD MEDIA") {
+            mpo.agencyShort = "PHD"
+        }
+
+        if (mpo.agency === "SIMPLY BLACK") {
+            mpo.agencyShort = "SYMPLY B"
+        }
+
+        if (mpo.agency === "MAXIMEDIA GLOBAL LIMITED") {
+            mpo.agencyShort = "MAXIMEDIA"
+        }
+
+        if (mpo.agency === "GLORYCAP LIMITED") {
+            mpo.agencyShort = "GLORYCAP"
+        }
+
+        if (mpo.agency === "TOLARAM LIMITED") {
+            mpo.agencyShort = "TOLARAM"
+        }
+
+        if (mpo.agency === "SUMMIT CREST MEDIA CONSULTING") {
+            mpo.agencyShort = "SUMMIT C."
+        }
+
+        if (mpo.agency === "OTB MEDIA CONCEPT LIMITED") {
+            mpo.agencyShort = "OTB MEDIA"
+        }
+
+        if (mpo.agency === "PROSPECTS MEDIA & COMMUNICATIONS") {
+            mpo.agencyShort = "PROSPECTS M&C"
+        }
+    })
 
     let mergedByMonth = [];
     mergedByMonth = Object.values(
-        filteredYears.reduce((acc, curr) => {
+        filteredAgencies.reduce((acc, curr) => {
         if (!acc[curr.month]) {
         acc[curr.month] = {
             month: curr.month,
@@ -47,8 +86,8 @@ const MonthChart = () => {
         acc[curr.month].lineTotal += curr.lineTotal;
         acc[curr.month].netTotal += curr.netTotal;
         return acc;
-    }, {})
-);
+      }, {})
+    );
 
     
         for (let i = 0; i < mergedByMonth.length; i++) {
@@ -99,6 +138,16 @@ const MonthChart = () => {
                   uniqueYears.map((mpo) => (
                     <option key={uniqueYears.indexOf(mpo)} value={mpo.year}>
                       {mpo.year}
+                    </option>
+                  ))
+                }
+              </Select>
+              <Select value={selectedAgency} onChange={setSelectedAgegncy}>
+                <option value="All Agencies">All Agencies</option>
+                {
+                  uniqueAgency.map((mpo) => (
+                    <option key={uniqueAgency.indexOf(mpo)} value={mpo.agency}>
+                      {mpo.agencyShort}
                     </option>
                   ))
                 }

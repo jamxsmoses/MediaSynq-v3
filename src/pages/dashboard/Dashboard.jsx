@@ -1,4 +1,3 @@
-import { useAuthStore } from "../../store/authStore";
 import { useState } from "react";
 import Totals from "./components/Totals";
 import { useMpoStore } from "../../store/mpoStore";
@@ -13,13 +12,16 @@ import YearChart from "./components/charts/yearlyChart/YearChart";
 import MonthChart from "./components/charts/monthChart/MonthChart";
 import Select from "../../components/Select";
 import { uniqueYear, uniqueMonths, uniqueAgencies } from "../../components/functions/Functions";
+import { useThemeStore } from "../../store/themeStore";
 
 const Dashboard = () => {   
     const mpos = useMpoStore((state) => state.mpoData);
     const [balanceVisible, setBalanceVisible] = useState(true);
-    const [selectedYear, setSelectedYear] = useState("All Years")
+    const currentYear = new Date().getFullYear();
+    const [selectedYear, setSelectedYear] = useState(currentYear)
     const [selectedMonth, setSelectedMonth] = useState("All Months")
     const [selectedAgencies, setSelectedAgencies] = useState("All Agencies")
+    const theme = useThemeStore((state) => state.theme);
 
     const setbalanceVisibility = () => {
         setBalanceVisible(!balanceVisible);
@@ -80,6 +82,44 @@ const Dashboard = () => {
     const uniqueMonth = uniqueMonths(mpos);
     const uniqueAgency = uniqueAgencies(mpos);
 
+    uniqueAgency.forEach((mpo) => {
+        if (mpo.agency === "MEDIA PERSPECTIVES") {
+            mpo.agencyShort = "MP"
+        }
+
+        if (mpo.agency === "PHD MEDIA") {
+            mpo.agencyShort = "PHD"
+        }
+
+        if (mpo.agency === "SIMPLY BLACK") {
+            mpo.agencyShort = "SYMPLY B"
+        }
+
+        if (mpo.agency === "MAXIMEDIA GLOBAL LIMITED") {
+            mpo.agencyShort = "MAXIMEDIA"
+        }
+
+        if (mpo.agency === "GLORYCAP LIMITED") {
+            mpo.agencyShort = "GLORYCAP"
+        }
+
+        if (mpo.agency === "TOLARAM LIMITED") {
+            mpo.agencyShort = "TOLARAM"
+        }
+
+        if (mpo.agency === "SUMMIT CREST MEDIA CONSULTING") {
+            mpo.agencyShort = "SUMMIT C."
+        }
+
+        if (mpo.agency === "OTB MEDIA CONCEPT LIMITED") {
+            mpo.agencyShort = "OTB MEDIA"
+        }
+
+        if (mpo.agency === "PROSPECTS MEDIA & COMMUNICATIONS") {
+            mpo.agencyShort = "PROSPECTS M&C"
+        }
+    })
+
     uniqueMonth.forEach((mpo) => {
     for (let i = 0; i < months.length; i++) {
         if (mpo.month === months[i].month) {
@@ -102,8 +142,8 @@ const Dashboard = () => {
     }
 
     return <>
-        <div className="hideScroll dashboard overflow-scroll w-full h-[100%] bg-black flex flex-col gap-[10px]">
-            <div className="w-full h-[45px] bg-[#001026] rounded-[10px] flex justify-between items-center px-[20px] xl:py-[5px] lg:py-[5px] py-[8px]">
+        <div className={`${theme === 'light' ? "bg-gray-200" : 'bg-black'} smooth hideScroll dashboard overflow-scroll w-full h-[100%] bg-black flex flex-col gap-[10px]`}>
+            <div className={`w-full h-[45px] ${theme === "light" ? "bg-[#0d2547]" : "bg-[#001026]"} smooth rounded-[10px] flex justify-between items-center px-[20px] xl:py-[5px] lg:py-[5px] py-[8px]`}>
                 <div className="text-white xl:text-[14px] lg:text-[12px] md:text-[11px] text-[10px] flex gap-x-[10px]">
                     <span>{balanceVisible ? "Hide Totals" : "Show Totals"}</span>
                     <img
@@ -132,7 +172,7 @@ const Dashboard = () => {
                         <option value="All Agencies">All Agencies</option>
                         {
                             uniqueAgency.map((item) => (
-                                <option key={item.id} value={item.agency}>{item.agency}</option>
+                                <option key={item.id} value={item.agency}>{item.agencyShort}</option>
                             ))
                         }
                     </Select>
@@ -140,40 +180,40 @@ const Dashboard = () => {
             </div>
 
             {/* Figures for large screen */}
-            <div className="w-full bg-black xl:flex lg:flex hidden xl:flex-row lg:flex-row flex-col justify-between gap-[10px]">
+            <div className="w-full xl:flex lg:flex hidden xl:flex-row lg:flex-row flex-col justify-between gap-[10px]">
                 <div className="w-full xl:h-[110px] lg:h-[110px] md:h-[85px] h-[80px] flex flex-row gap-[10px]">
-                    <div className="w-full h-full bg-[#001026] rounded-[10px] flex flex-col justify-center px-[20px]">
+                    <div className={`w-full h-full ${theme === "light" ? "bg-[#0d2547]" : "bg-[#001026]"} smooth rounded-[10px] flex flex-col justify-center px-[20px]`}>
                         <Totals balanceVisible={balanceVisible} title="Gross Total" value={`₦${formatRate(grossTotal)}`}/>
                     </div>
-                    <div className="w-full xl:h-[110px] lg:h-[110px] md:h-[85px] h-[80px] bg-[#001026] rounded-[10px] flex flex-col justify-center px-[20px]">
+                    <div className={`w-full xl:h-[110px] lg:h-[110px] md:h-[85px] h-[80px] ${theme === "light" ? "bg-[#0d2547]" : "bg-[#001026]"} smooth rounded-[10px] flex flex-col justify-center px-[20px]`}>
                         <Totals balanceVisible={balanceVisible} title="Net Total" value={`₦${formatRate(netTotal)}`}/>
                     </div>
                 </div>
                 <div className="w-full xl:h-[110px] lg:h-[110px] md:h-[85px] h-[80px] flex flex-row gap-[10px]">
-                    <div className="w-full h-full bg-[#001026] rounded-[10px] flex flex-col justify-center px-[20px]">
+                    <div className={`w-full h-full ${theme === "light" ? "bg-[#0d2547]" : "bg-[#001026]"} smooth rounded-[10px] flex flex-col justify-center px-[20px]`}>
                         <Totals balanceVisible={balanceVisible} title="Total MPOs" value={totalMpos.toLocaleString('en-US')}/>
                     </div>
-                    <div className="w-full xl:h-[110px] lg:h-[110px] md:h-[85px] h-[80px] bg-[#001026] rounded-[10px] flex flex-col justify-center px-[20px]">
+                    <div className={`w-full xl:h-[110px] lg:h-[110px] md:h-[85px] h-[80px] ${theme === "light" ? "bg-[#0d2547]" : "bg-[#001026]"} smooth rounded-[10px] flex flex-col justify-center px-[20px]`}>
                         <Totals balanceVisible={balanceVisible} title="Total Spots" value={totalSpots.toLocaleString('en-US')}/>
                     </div>
                 </div>
             </div>
 
             {/* Figures for smaller screen */}
-            <div className="w-full bg-black xl:hidden lg:hidden flex xl:flex-row lg:flex-row flex-col justify-between gap-[10px]">
+            <div className="w-full xl:hidden lg:hidden flex xl:flex-row lg:flex-row flex-col justify-between gap-[10px]">
                 <div className="w-full xl:h-[110px] lg:h-[110px] md:h-[85px] h-[80px] flex flex-row gap-[10px]">
-                    <div className="xl:w-full lg:w-full md:w-full sm:w-full w-[60%] h-full bg-[#001026] rounded-[10px] flex flex-col justify-center px-[20px]">
+                    <div className={`xl:w-full lg:w-full md:w-full sm:w-full w-[60%] h-full ${theme === "light" ? "bg-[#0d2547]" : "bg-[#001026]"} smooth rounded-[10px] flex flex-col justify-center px-[20px]`}>
                         <Totals balanceVisible={balanceVisible} title="Gross Total" value={`₦${formatRate(grossTotal)}`}/>
                     </div>
-                    <div className="w-full h-full bg-[#001026] rounded-[10px] flex flex-col justify-center px-[20px]">
+                    <div className={`w-full h-full ${theme === "light" ? "bg-[#0d2547]" : "bg-[#001026]"} smooth rounded-[10px] flex flex-col justify-center px-[20px]`}>
                         <Totals balanceVisible={balanceVisible} title="Total MPOs" value={totalMpos.toLocaleString('en-US')}/>
                     </div>
                 </div>
                 <div className="w-full xl:h-[110px] lg:h-[110px] md:h-[85px] h-[80px] flex flex-row gap-[10px]">
-                    <div className="xl:w-full lg:w-full md:w-full sm:w-full w-[60%] xl:h-[110px] lg:h-[110px] md:h-[85px] h-[80px] bg-[#001026] rounded-[10px] flex flex-col justify-center px-[20px]">
+                    <div className={`xl:w-full lg:w-full md:w-full sm:w-full w-[60%] xl:h-[110px] lg:h-[110px] md:h-[85px] h-[80px] ${theme === "light" ? "bg-[#0d2547]" : "bg-[#001026]"} smooth rounded-[10px] flex flex-col justify-center px-[20px]`}>
                         <Totals balanceVisible={balanceVisible} title="Net Total" value={`₦${formatRate(netTotal)}`}/>
                     </div>
-                    <div className="w-full xl:h-[110px] lg:h-[110px] md:h-[85px] h-[80px] bg-[#001026] rounded-[10px] flex flex-col justify-center px-[20px]">
+                    <div className={`w-full xl:h-[110px] lg:h-[110px] md:h-[85px] h-[80px] ${theme === "light" ? "bg-[#0d2547]" : "bg-[#001026]"} smooth rounded-[10px] flex flex-col justify-center px-[20px]`}>
                         <Totals balanceVisible={balanceVisible} title="Total Spots" value={totalSpots.toLocaleString('en-US')}/>
                     </div>
                 </div>
@@ -183,18 +223,18 @@ const Dashboard = () => {
             <div className="w-full h-full flex box-border chartsContainer">
                 <div className="w-full h-full flex flex-col gap-[10px]">
                     <div className="w-full h-full flex xl:flex-row lg:flex-row flex-col gap-[10px]">
-                        <div className="chartsCon xl:w-[50%] lg:w-[50%] w-full xl:h-full lg:h-[550px] sm:h-[650px] h-[450px] bg-[#001026] rounded-[10px] p-[20px]">
+                        <div className={`chartsCon xl:w-[50%] lg:w-[50%] w-full xl:h-full lg:h-[550px] sm:h-[650px] h-[450px] ${theme === "light" ? "bg-[#0d2547]" : "bg-[#001026]"} smooth rounded-[10px] p-[20px]`}>
                             <YearChart />
                         </div>
-                        <div className="chartsCon xl:w-[50%] lg:w-[50%] w-full xl:h-full lg:h-full md:h-[800px] h-[500px] bg-[#001026] rounded-[10px] p-[20px]">
+                        <div className={`chartsCon xl:w-[50%] lg:w-[50%] w-full xl:h-full lg:h-full md:h-[800px] h-[500px] ${theme === "light" ? "bg-[#0d2547]" : "bg-[#001026]"} smooth rounded-[10px] p-[20px]`}>
                             <MonthChart />
                         </div>
                     </div>
                     <div className="w-full h-full flex xl:flex-row flex-col gap-[10px]">
-                        <div className="chartsCon xl:w-[50%] w-full xl:h-full lg:h-[400px] md:h-full h-[750px] bg-[#001026] rounded-[10px] p-[20px]">
+                        <div className={`chartsCon xl:w-[50%] w-full xl:h-full lg:h-[400px] md:h-full h-[750px] ${theme === "light" ? "bg-[#0d2547]" : "bg-[#001026]"} smooth rounded-[10px] p-[20px]`}>
                             <AgenciesChart />
                         </div>
-                        <div className="chartsCon xl:w-[50%] w-full h-full bg-[#001026] rounded-[10px] p-[20px]">
+                        <div className={`chartsCon xl:w-[50%] w-full h-full ${theme === "light" ? "bg-[#0d2547]" : "bg-[#001026]"} smooth rounded-[10px] p-[20px]`}>
                             <QuarterChart />
                         </div>
                     </div>

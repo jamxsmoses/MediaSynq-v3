@@ -2,6 +2,7 @@ import { useMpoStore } from "../../../../../store/mpoStore";
 import { useState } from 'react';
 import "./AgenciesChart.css"
 import Select from '../../../../../components/Select';
+import { uniqueYear, uniqueMonths } from "../../../../../components/functions/Functions";
 
 const colors = ['#0088FE', // Blue
     '#00C49F', // Green
@@ -19,7 +20,8 @@ const colors = ['#0088FE', // Blue
 
 const AgenciesChart = () => {
     const mpos = useMpoStore((state) => state.mpoData);
-    const [selectedYear, setSelectedYear] = useState("All Years");
+    const currentYear = new Date().getFullYear();
+    const [selectedYear, setSelectedYear] = useState(currentYear);
     const [selectedMonth, setSelectedMonth] = useState("All Months");
 
     mpos.forEach((mpo) => {
@@ -121,9 +123,7 @@ const AgencyPieChart = ({ mpos, data, selectedYear, setSelectedYear, selectedMon
   const [hoveredSlice, setHoveredSlice] = useState(null);
   const [hoveredLegend, setHoveredLegend] = useState(null);
 
-  const uniqueYears = Array.from(
-    new Map(mpos.map((mpo) => [mpo.year, mpo])).values()
-  );
+  const uniqueYears = uniqueYear(mpos);
 
   const months = [
     {id: 1, month: "JANUARY"},
@@ -140,11 +140,9 @@ const AgencyPieChart = ({ mpos, data, selectedYear, setSelectedYear, selectedMon
     {id: 12, month: "DECEMBER"},
   ]
 
-  const uniqueMonths = Array.from(
-    new Map(mpos.map((mpo) => [mpo.month, mpo])).values()
-  );
+  const uniqueMonth = uniqueMonths(mpos)
 
-  uniqueMonths.forEach((mpo) => {
+  uniqueMonth.forEach((mpo) => {
     for (let i = 0; i < months.length; i++) {
         if (mpo.month === months[i].month) {
             mpo.id2 = months[i].id; 
@@ -152,7 +150,7 @@ const AgencyPieChart = ({ mpos, data, selectedYear, setSelectedYear, selectedMon
     }
   })
   
-  const sortedMonths = uniqueMonths.sort((a, b) => {
+  const sortedMonths = uniqueMonth.sort((a, b) => {
     return a.id2 - b.id2
   })
   

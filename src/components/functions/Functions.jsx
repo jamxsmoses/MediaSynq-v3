@@ -46,3 +46,19 @@ export function uniqueMonths(arr) {
 
     return newArray;
 } 
+
+export function uniqueBrands(arr) {    
+    const newArray = Array.from(
+        new Map(arr.map((mpo) => [mpo.brand, mpo])).values()
+    );
+
+    return newArray;
+} 
+
+export function uniqueMpoNum(arr) { 
+    const newArray = Array.from(
+        new Map(arr.map((mpo) => [mpo.mpoNumber, mpo])).values()
+    );
+
+    return newArray;
+} 

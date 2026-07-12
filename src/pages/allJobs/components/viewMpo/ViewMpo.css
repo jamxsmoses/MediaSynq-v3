@@ -1,0 +1,72 @@
+.viewMPOHeader,
+.viewMPOHeader tr,
+.viewMPOHeader tr td {
+  border: none !important;
+}
+
+.viewMpo table tbody td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.viewMpo table tbody .tr:hover {
+  color: black !important;
+}
+
+.viewMpo table .thead td,
+.viewMpo table tbody td {
+  padding: 3px 10px 3px 10px;
+}
+
+.popUp {
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.521);
+}
+
+.viewMpo table td input {
+  outline: none;
+  border: none;
+  background: none;
+  width: 100%;
+}
+
+.viewMpo table td input::placeholder {
+  color: black;
+}
+
+/* .hidden {
+  display: none;
+} */
+
+.viewMpo table td input[type="number"]::-webkit-outer-spin-button,
+.viewMpo table td input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide number input controls in Firefox */
+
+.viewMpo table td input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.show {
+  display: block;
+}
+
+.dont-show {
+  display: none;
+}
+
+.mainDetailsContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.mpMpoSelect {
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.mpMpoSelect option {
+  background-color: black;
+}

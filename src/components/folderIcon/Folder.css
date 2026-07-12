@@ -1,0 +1,11 @@
+.folder-icon {
+  width: 100px;
+  height: 80px;
+  position: relative;
+  /* Defining the folder shape with rounded corners using path commands */
+  clip-path: path("M 10 0 H 40 A 5 5 0 0 1 45 5 V 10 H 90 A 10 10 0 0 1 100 20 V 70 A 10 10 0 0 1 90 80 H 10 A 10 10 0 0 1 0 70 V 10 A 10 10 0 0 1 10 0 Z");
+}
+
+.folderContainer {
+    box-sizing: border-box;
+}

@@ -6,6 +6,10 @@
   font-optical-sizing: auto;
 }
 
+body {
+  background-color: black;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -18,11 +22,14 @@ h1 {
     display: none;
 }
 
+.smooth {
+  transition: all .3s ease-in;
+}
+
 .dashboard select {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  /* Add custom arrow or remove completely */
 }
 
 .dashboard select option {
@@ -31,4 +38,16 @@ h1 {
 
 .authContainer input[type="checkbox"] {
   accent-color: #008CFF; 
+}
+
+.navIconTitle {
+  z-index: 200 !important;
+}
+
+.hideScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.fileDiv {
+  scrollbar-width: thin !important;
 }

@@ -2,7 +2,7 @@ import { useMpoStore } from "../../../../../store/mpoStore"
 import { ComposedChart, Line, Bar, XAxis, Area, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { useState } from "react";
 import Select from "../../../../../components/Select";
-import { formatRate } from "../../../../../components/functions/Functions";
+import { formatRate, uniqueAgencies } from "../../../../../components/functions/Functions";
 
 const YearChart = () => {
     const mpos = useMpoStore((state) => state.mpoData)
@@ -10,9 +10,45 @@ const YearChart = () => {
 
     const sortedAgencies = selectedAgency === "All Agencies" ? mpos : mpos.filter((mpo) => mpo.agency === selectedAgency)
 
-    const uniqueAgency = Array.from(
-    new Map(mpos.map((mpo) => [mpo.agency, mpo])).values()
-    );
+    const uniqueAgency = uniqueAgencies(mpos);
+
+    uniqueAgency.forEach((mpo) => {
+        if (mpo.agency === "MEDIA PERSPECTIVES") {
+            mpo.agencyShort = "MP"
+        }
+
+        if (mpo.agency === "PHD MEDIA") {
+            mpo.agencyShort = "PHD"
+        }
+
+        if (mpo.agency === "SIMPLY BLACK") {
+            mpo.agencyShort = "SYMPLY B"
+        }
+
+        if (mpo.agency === "MAXIMEDIA GLOBAL LIMITED") {
+            mpo.agencyShort = "MAXIMEDIA"
+        }
+
+        if (mpo.agency === "GLORYCAP LIMITED") {
+            mpo.agencyShort = "GLORYCAP"
+        }
+
+        if (mpo.agency === "TOLARAM LIMITED") {
+            mpo.agencyShort = "TOLARAM"
+        }
+
+        if (mpo.agency === "SUMMIT CREST MEDIA CONSULTING") {
+            mpo.agencyShort = "SUMMIT C."
+        }
+
+        if (mpo.agency === "OTB MEDIA CONCEPT LIMITED") {
+            mpo.agencyShort = "OTB MEDIA"
+        }
+
+        if (mpo.agency === "PROSPECTS MEDIA & COMMUNICATIONS") {
+            mpo.agencyShort = "PROSPECTS M&C"
+        }
+    })
 
     let mergedByYear = [];
     mergedByYear = sortedAgencies.reduce((acc, curr) => {
@@ -67,7 +103,7 @@ const YearChart = () => {
                 {
                   uniqueAgency.map((mpo) => (
                     <option key={uniqueAgency.indexOf(mpo)} value={mpo.agency}>
-                      {mpo.agency}
+                      {mpo.agencyShort}
                     </option>
                   ))
                 }

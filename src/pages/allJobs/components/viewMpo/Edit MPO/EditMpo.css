@@ -1,0 +1,65 @@
+table tbody td {
+    border-right: 1px solid black;
+    border-collapse: collapse;
+}
+
+table thead td,
+table tbody td {
+  padding: 4px 10px 2px 10px;
+  white-space: nowrap;
+  color: white;
+}
+
+.edit-mpos table tbody tr,
+.edit-mpos table tbody td {
+  border-collapse: collapse;
+}
+
+
+.popUp {
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.521);
+}
+
+.edit-mpos table td input {
+  outline: none;
+  border: none;
+  background: none;
+  width: 100%;
+}
+
+.edit-mpos table td input::placeholder {
+  color: white;
+}
+
+.edit-mpos table td input[type="number"]::-webkit-outer-spin-button,
+.edit-mpos table td input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.edit-mpos table td input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.show {
+  display: block;
+}
+
+.dont-show {
+  display: none;
+}
+
+.scheduleTbody tr td {
+  width: 20px;
+  padding: 0 !important;
+  text-align: center;
+}
+
+.scheduleTbody tr td input {
+  padding: 5px !important;
+  text-align: center;
+}
+
+.scheduleTbody tr td input::placeholder {
+  text-align: center;
+}
