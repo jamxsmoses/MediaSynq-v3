@@ -101,8 +101,8 @@ const NavbarMobile = (prop) => {
     ]
 
     return <>
-        <div className="!z-10 w-full h-full bg-black py-[10px]">
-            <div className="w-full px-[10px] h-full m-auto flex justify-between items-center">
+        <div className="!z-10 w-full h-full bg-black">
+            <div className="w-[90%] px-[10px] h-full m-auto flex justify-between items-center">
                 {pages.map((page) => (
                     <Icon key={pages.indexOf(page)} page={page} pageName={pageName} theme={theme}/>
                 ))}
