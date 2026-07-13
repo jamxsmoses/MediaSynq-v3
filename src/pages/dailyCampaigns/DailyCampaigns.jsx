@@ -502,7 +502,6 @@ const DailyCampaigns = () => {
                       <thead className="thead xl:text-[12px] lg:text-[11px] md:text-[10px] sm:text-[10px] text-[9px]">
                       <tr className="bg-black text-white">
                           <td>S/N</td>
-                          
                           <td>Brand</td>
                           <td>Campaign</td>
                           <td className="text-center">Duration</td>
