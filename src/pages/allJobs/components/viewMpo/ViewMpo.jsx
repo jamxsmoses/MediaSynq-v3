@@ -19,10 +19,11 @@ import deleteIcon from "../../../../assets/images/trashIcon.svg"
 function ViewMpo({allMonths, setAllMonths}) {
   const mpos = useMpoStore((state) => state.mpoData);
   const user = useAuthStore((state) => state.user);
-  const [msg, setMsg] = useState();
+  const [msg, setMsg] = useState("Hi");
   const theme = useThemeStore((state) => state.theme)
   const [deleting, setDeleting] = useState(false);
   const [hoveredMpo, setHoveredMpo] = useState(null)
+  const fetchMpoData = useMpoStore((state) => state.fetchMpoData);
 
   const { agency, year, month, brand, mpoNum } = useParams();
   const navigate = useNavigate();
@@ -30,46 +31,46 @@ function ViewMpo({allMonths, setAllMonths}) {
         mpo.mpoNumber = mpo.mpoNumber.replace(/\s/g, "");
         mpo.mpoNum = mpo.mpoNumber.replace(/\//g, "");
         mpo.mpoNum = mpo.mpoNum.replace(/\s/g, "");
+        mpo.brand = mpo.brand.trim();
   });
 
   const filteredAgencies = mpos.filter((item) => item.agency === agency);
   const filteredYears = filteredAgencies.filter((mpo) => mpo.year === Number(year));
-  const filteredMonths = !allMonths ? filteredYears.filter((mpo) => mpo.month === month) : filteredYears;
-  const filteredBrands = filteredMonths.filter((mpo) => mpo.brand === brand);
+  const filteredMonths = !allMonths ? filteredYears.filter((mpo) => mpo.month.toUpperCase() === month.toUpperCase()) : filteredYears;
+  const filteredBrands = filteredMonths.filter((item) => item.brand.toUpperCase() === (brand.toString()).toUpperCase());
   const filteredMpos = filteredBrands.filter((mpo) => mpo.mpoNum === mpoNum);
+
+  console.log(filteredAgencies.length)
+  console.log(filteredYears.length)
+  console.log(filteredMonths.length)
+  console.log(filteredBrands.length)
+  console.log(filteredMpos.length)
+  
+  let curMpo = []
+  
+  curMpo =  filteredMpos.sort((a, b) => a.sn - b.sn);
 
   // Function to delete document
   const deleteDocument = async () => {
     if (user.permission === "Guest") {
       return;
     }
-    if (filteredMpos.length < 1) {
+    if (curMpo.length < 1) {
       return;
     } else {
-      for (let i = 0; i < filteredMpos.length; i++) {
+      setMsg("Deleting")
+      for (let i = 0; i < curMpo.length; i++) {
         try {
-          await deleteDoc(doc(db, "MPOS", filteredMpos[i].id));
+          await deleteDoc(doc(db, "MPOS", curMpo[i].id));
+          await fetchMpoData();
           setMsg("Delete successful!");
-          navigate(-1);
         } catch (error) {
           setMsg("Error deleting document: ", error.msg);
         }
       }
     }
-
-    navigate(-1);
+    navigate("/manage-mpos");
   };
-  
-
-  mpos.forEach((mpo) => {
-    mpo.mpoNumber = mpo.mpoNumber.replace(/\s/g, "");
-    mpo.mpoNum = mpo.mpoNumber.replace(/\//g, "");
-    mpo.mpoNum = mpo.mpoNum.replace(/\s/g, "");
-  });
-
-  let curMpo;
-
-  curMpo = filteredMpos.sort((a, b) => a.sn - b.sn);
   const days = [
     "1",
     "2",
@@ -103,6 +104,7 @@ function ViewMpo({allMonths, setAllMonths}) {
     "30",
     "31",
   ];
+
 
   return (
     <>
@@ -143,7 +145,7 @@ function ViewMpo({allMonths, setAllMonths}) {
                 }`}/>
               </div>
               <div onClick={() => setAllMonths(!allMonths)} className="xl:flex lg:flex md:flex justify-center">
-                  <div  className={`w-[40px] h-[20px] ${theme === "light" ? "bg-[#00000080]" : "bg-[#0d2547]"} rounded-2xl px-1 py-2 relative ${allMonths ? "justify-end" : "justify-start"} smooth cursor-pointer`}>
+                  <div  className={`${filteredMpos.length === filteredMonths.length ? "" : ""} w-[40px] h-[20px] ${theme === "light" ? "bg-[#00000080]" : "bg-[#0d2547]"} rounded-2xl px-1 py-2 relative ${allMonths ? "justify-end" : "justify-start"} smooth cursor-pointer`}>
                       <div className={`w-[14px] h-[14px] rounded-2xl absolute top-[50%] translate-y-[-50%] ${!allMonths ? "left-[10%] bg-gray-400" : "left-[55%] bg-blue-400"} smooth`}>
                       </div>
                   </div>
@@ -168,11 +170,14 @@ function ViewMpo({allMonths, setAllMonths}) {
               />
             )}
           </div>
-          <p
-            className={`text-green-600 mt-[40px] text-white xl:text-[13px] lg:text-[13px] md:text-[10px] sm:text-[10px] text-[10px]`}
-          >
-            {msg}
-          </p>
+          <div className="relative w-[100px] h-[50px] bg-white p-[20px] b-[20px]">
+            <p
+              className={`text-green-600 mt-[40px] text-white xl:text-[13px] lg:text-[13px] md:text-[10px] sm:text-[10px] text-[10px]`}
+            >
+              {msg}
+            </p>
+
+          </div>
         </div>
       )}
     </>

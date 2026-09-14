@@ -20,6 +20,10 @@ import mposIcon2Light from "../assets/images/navIcons/lightThemeIcons/mpos2.svg"
 import campaignsIcon2Light from "../assets/images/navIcons/lightThemeIcons/campaigns2.svg"
 import uploadMpoIcon2Light from "../assets/images/navIcons/lightThemeIcons/uploadMpos2.svg"
 import invoiceIcon2Light from "../assets/images/navIcons/lightThemeIcons/invoice2.svg"
+import reconcileDark1 from "../assets/images/navIcons/darkThemeIcons/reconcile.svg"
+import reconcileDark2 from "../assets/images/navIcons/darkThemeIcons/reconcile2.svg"
+import reconcileLight1 from "../assets/images/navIcons/lightThemeIcons/reconcile.svg"
+import reconcileLight2 from "../assets/images/navIcons/lightThemeIcons/reconcile2.svg"
 import "animate.css"
 import { useThemeStore } from "../store/themeStore"
 
@@ -72,6 +76,20 @@ const NavbarMobile = (prop) => {
         },
         {
             id: 3,
+            pageTitle: "Reconcile",
+            link: "/reconcile",
+            darkThemeIcons: {
+                img1: reconcileDark1,
+                img2: reconcileDark2,
+            },
+            lightThemeIcons: {
+                img1: reconcileLight2,
+                img2: reconcileLight1,
+            }
+            
+        },
+        {
+            id: 3,
             pageTitle: "Upload MPO",
             link: "/new-mpo",
             darkThemeIcons: {
@@ -101,7 +119,7 @@ const NavbarMobile = (prop) => {
     ]
 
     return <>
-        <div className="!z-10 w-full h-full bg-black">
+        <div className={`!z-10 w-full h-full py-[2px] ${theme === "light" ? "bg-white" : "bg-black"}`}>
             <div className="w-[90%] px-[10px] h-full m-auto flex justify-between items-center">
                 {pages.map((page) => (
                     <Icon key={pages.indexOf(page)} page={page} pageName={pageName} theme={theme}/>

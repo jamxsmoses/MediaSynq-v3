@@ -85,38 +85,24 @@ const Dashboard = () => {
     uniqueAgency.forEach((mpo) => {
         if (mpo.agency === "MEDIA PERSPECTIVES") {
             mpo.agencyShort = "MP"
-        }
-
-        if (mpo.agency === "PHD MEDIA") {
+        } else if (mpo.agency === "PHD MEDIA") {
             mpo.agencyShort = "PHD"
-        }
-
-        if (mpo.agency === "SIMPLY BLACK") {
+        } else if (mpo.agency === "SIMPLY BLACK ADVERTISING & CONSULTANCY LIMITED") {
             mpo.agencyShort = "SYMPLY B"
-        }
-
-        if (mpo.agency === "MAXIMEDIA GLOBAL LIMITED") {
+        } else if (mpo.agency === "MAXIMEDIA GLOBAL LIMITED") {
             mpo.agencyShort = "MAXIMEDIA"
-        }
-
-        if (mpo.agency === "GLORYCAP LIMITED") {
+        } else if (mpo.agency === "GLORYCAP LIMITED") {
             mpo.agencyShort = "GLORYCAP"
-        }
-
-        if (mpo.agency === "TOLARAM LIMITED") {
+        } else if (mpo.agency === "TOLARAM LIMITED") {
             mpo.agencyShort = "TOLARAM"
-        }
-
-        if (mpo.agency === "SUMMIT CREST MEDIA CONSULTING") {
+        } else if (mpo.agency === "SUMMIT CREST MEDIA CONSULTING") {
             mpo.agencyShort = "SUMMIT C."
-        }
-
-        if (mpo.agency === "OTB MEDIA CONCEPT LIMITED") {
+        } else if (mpo.agency === "OTB MEDIA CONCEPT LIMITED") {
             mpo.agencyShort = "OTB MEDIA"
-        }
-
-        if (mpo.agency === "PROSPECTS MEDIA & COMMUNICATIONS") {
+        } else if (mpo.agency === "PROSPECTS MEDIA & COMMUNICATIONS") {
             mpo.agencyShort = "PROSPECTS M&C"
+        } else {
+            mpo.agencyShort = mpo.agency
         }
     })
 

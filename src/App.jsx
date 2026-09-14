@@ -17,6 +17,7 @@ import NavbarMobile from './components/NavbarMobile';
 import { useLocationStore } from './store/locationStore';
 import DailyCampaigns from './pages/dailyCampaigns/DailyCampaigns';
 import NewMpo from './pages/newMpo/NewMpo';
+import Reconcile from './pages/reconcile/Reconcile';
 
 function App() {
   const setUser = useAuthStore((state) => state.setUser);
@@ -101,7 +102,9 @@ function App() {
     pageName = "Dashboard";
   } else if (location.pathname.includes("/manage-mpos")) {
     pageName = "Manage MPOs";
-  } else if (location.pathname === "/new-mpo") {
+  } else if (location.pathname.includes("/reconcile")) {
+    pageName = "Reconcile";
+  }else if (location.pathname === "/new-mpo") {
     pageName = "Upload MPO";
   } else if (location.pathname.includes("/invoice")) {
     pageName = "Invoice";
@@ -135,12 +138,13 @@ function App() {
             <Route path='/dashboard' element={user ? <Dashboard /> : <Navigate to="/" />}/>
             <Route path='/manage-mpos/*' element={<Jobs/>}/>
             <Route path='/campaigns' element={<DailyCampaigns currentUser={user}/>}/>
+            <Route path='/reconcile' element={<Reconcile />}/>
             <Route path='/new-mpo' element={<NewMpo />}/>
           </Routes>
         </main>
       </div>
       {/* Mobile Nav */}
-      <nav className={`w-full fixed bottom-0 left-0  border-t-[1px] border-t-white ${user ? "xl:hidden lg:hidden md:hidden flex" : "hidden"} h-[6%] flex justify-center`}>
+      <nav className={`w-full fixed bottom-0 left-0  border-t-[1px] ${theme === "light" ? "border-t-black" : "border-t-white"} ${user ? "xl:hidden lg:hidden md:hidden flex" : "hidden"} h-[6%] flex justify-center`}>
         <NavbarMobile pageName = {pageName}/>
       </nav>
     </div>

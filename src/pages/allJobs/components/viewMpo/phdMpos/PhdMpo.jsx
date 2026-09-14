@@ -43,37 +43,7 @@ const PhdMpo = ({ curMpo, days, hoveredMpo, setHoveredMpo }) => {
         ae
     ) {
         let totalSpots = 0;
-        totalSpots = totalSpots + a;
-        totalSpots = totalSpots + b;
-        totalSpots = totalSpots + c;
-        totalSpots = totalSpots + d;
-        totalSpots = totalSpots + e;
-        totalSpots = totalSpots + f;
-        totalSpots = totalSpots + g;
-        totalSpots = totalSpots + h;
-        totalSpots = totalSpots + i;
-        totalSpots = totalSpots + j;
-        totalSpots = totalSpots + k;
-        totalSpots = totalSpots + l;
-        totalSpots = totalSpots + m;
-        totalSpots = totalSpots + n;
-        totalSpots = totalSpots + o;
-        totalSpots = totalSpots + p;
-        totalSpots = totalSpots + q;
-        totalSpots = totalSpots + r;
-        totalSpots = totalSpots + s;
-        totalSpots = totalSpots + t;
-        totalSpots = totalSpots + u;
-        totalSpots = totalSpots + v;
-        totalSpots = totalSpots + w;
-        totalSpots = totalSpots + x;
-        totalSpots = totalSpots + y;
-        totalSpots = totalSpots + z;
-        totalSpots = totalSpots + aa;
-        totalSpots = totalSpots + ab;
-        totalSpots = totalSpots + ac;
-        totalSpots = totalSpots + ad;
-        totalSpots = totalSpots + ae;
+        totalSpots = totalSpots + Number(a) + Number(b) + Number(c) + Number(d) + Number(e) + Number(f) + Number(g) + Number(h) + Number(i) + Number(j) + Number(k) + Number(l) + Number(m) + Number(n) + Number(o) + Number(p) + Number(q) + Number(r) + Number(s) + Number(t) + Number(u) + Number(v) + Number(w) + Number(x) + Number(y) + Number(z) + Number(aa) + Number(ab) + Number(ac) + Number(ad) + Number(ae);
 
         return totalSpots;
     }
@@ -129,6 +99,9 @@ const PhdMpo = ({ curMpo, days, hoveredMpo, setHoveredMpo }) => {
               </thead>
               <tbody>
                 <MpoTableRow curMpo={curMpo} navigate={navigate} hoveredMpo={hoveredMpo} setHoveredMpo={setHoveredMpo}/>
+                <tr>
+                  <td colSpan={12} className="h-[20px]" style={{borderLeft: "none", borderRight: "none"}}></td>
+                </tr>
                 <tr className="xl:text-[12px] lg:text-[11px] md:text-[10px] text-[9px] text-white text-center">
                   <td colSpan={"2"} style={{borderLeft: "none"}} className={`theme === "dark" ? "bg-[#0d2547]" : "bg-[#000000]"}`}></td>
                   <td className="font-bold">{totalSpots}</td>

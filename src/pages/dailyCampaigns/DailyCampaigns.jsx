@@ -328,7 +328,7 @@ const DailyCampaigns = () => {
     } else {
       return array.filter((item) => {
         const containsKeyword = keywords.some((keyword) =>
-          item.specification.trim().includes(keyword)
+          item.specification.includes(keyword)
         );
 
         return selectedType === "Local" ? containsKeyword : !containsKeyword;
@@ -511,16 +511,16 @@ const DailyCampaigns = () => {
                       </thead>
                       <tbody>
                       {todaysCampaigns.map((mpo) => (
-                          <tr
+                          <tr style={{borderLeft: "none", borderRight: "none"}}
                           className={`whitespace-nowrap main-tr animate__animated animate__fadeInUp thead xl:text-[12px] lg:text-[11px] md:text-[10px] sm:text-[10px] text-[9px] text-white`}
                           key={todaysCampaigns.indexOf(mpo)}
                           >
-                          <td>{todaysCampaigns.indexOf(mpo) + 1}</td>
+                          <td style={{borderLeft: "none"}}>{todaysCampaigns.indexOf(mpo) + 1}</td>
                           <td>{mpo.brand}</td>
                           <td>{mpo.campaign}</td>
                           <td className="text-center">{toSentenceCase(mpo.duration)}</td>
                           <td className="text-center">{mpo.schedule.dayValue}</td>
-                          <td>{mpo.specification}</td>
+                          <td style={{borderRight: "none"}}>{mpo.specification}</td>
                           </tr>
                       ))}
                       </tbody>

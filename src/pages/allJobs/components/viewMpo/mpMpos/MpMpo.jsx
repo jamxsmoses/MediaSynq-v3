@@ -45,37 +45,7 @@ const MpMpo = ({curMpo, days}) => {
         ae
     ) {
         let totalSpots = 0;
-        totalSpots = totalSpots + a;
-        totalSpots = totalSpots + b;
-        totalSpots = totalSpots + c;
-        totalSpots = totalSpots + d;
-        totalSpots = totalSpots + e;
-        totalSpots = totalSpots + f;
-        totalSpots = totalSpots + g;
-        totalSpots = totalSpots + h;
-        totalSpots = totalSpots + i;
-        totalSpots = totalSpots + j;
-        totalSpots = totalSpots + k;
-        totalSpots = totalSpots + l;
-        totalSpots = totalSpots + m;
-        totalSpots = totalSpots + n;
-        totalSpots = totalSpots + o;
-        totalSpots = totalSpots + p;
-        totalSpots = totalSpots + q;
-        totalSpots = totalSpots + r;
-        totalSpots = totalSpots + s;
-        totalSpots = totalSpots + t;
-        totalSpots = totalSpots + u;
-        totalSpots = totalSpots + v;
-        totalSpots = totalSpots + w;
-        totalSpots = totalSpots + x;
-        totalSpots = totalSpots + y;
-        totalSpots = totalSpots + z;
-        totalSpots = totalSpots + aa;
-        totalSpots = totalSpots + ab;
-        totalSpots = totalSpots + ac;
-        totalSpots = totalSpots + ad;
-        totalSpots = totalSpots + ae;
+        totalSpots = totalSpots + Number(a) + Number(b) + Number(c) + Number(d) + Number(e) + Number(f) + Number(g) + Number(h) + Number(i) + Number(j) + Number(k) + Number(l) + Number(m) + Number(n) + Number(o) + Number(p) + Number(q) + Number(r) + Number(s) + Number(t) + Number(u) + Number(v) + Number(w) + Number(x) + Number(y) + Number(z) + Number(aa) + Number(ab) + Number(ac) + Number(ad) + Number(ae);
 
         return totalSpots;
     }
@@ -351,7 +321,6 @@ const MpMpo = ({curMpo, days}) => {
 export default MpMpo;
 
 const MpoTableRow = ({curMpo, navigate, totalRate, hoveredMpo, setHoveredMpo}) => {
-    console.log(hoveredMpo)
 
     return <>
         {

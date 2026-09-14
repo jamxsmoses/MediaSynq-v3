@@ -1,11 +1,1 @@
-<svg width="19" height="16" viewBox="0 0 19 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-<mask id="path-1-inside-1_2031_761" fill="white">
-<rect width="19" height="16" rx="1"/>
-</mask>
-<rect width="19" height="16" rx="1" stroke="black" stroke-width="2.4" mask="url(#path-1-inside-1_2031_761)"/>
-<line x1="1" y1="3.4" x2="18" y2="3.4" stroke="black" stroke-width="1.2"/>
-<line x1="4.6" y1="4" x2="4.6" y2="16" stroke="black" stroke-width="1.2"/>
-<line x1="1" y1="6.4" x2="18" y2="6.4" stroke="black" stroke-width="1.2"/>
-<line x1="1" y1="9.4" x2="18" y2="9.4" stroke="black" stroke-width="1.2"/>
-<line x1="1" y1="12.4" x2="18" y2="12.4" stroke="black" stroke-width="1.2"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.31 18.86"><defs><style>.cls-1,.cls-2{fill:none;stroke:#010101;stroke-width:1.5px;}.cls-2{stroke-linecap:round;}</style></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M2.45.75H13.84A1.61,1.61,0,0,1,15,1.3l3,3.34A2,2,0,0,1,18.56,6V16.24a1.79,1.79,0,0,1-1.69,1.87H2.45a1.79,1.79,0,0,1-1.7-1.87V2.63A1.79,1.79,0,0,1,2.45.75Z"/><line class="cls-2" x1="4.04" y1="3.24" x2="11.16" y2="3.24"/><line class="cls-2" x1="4.04" y1="5.64" x2="6.11" y2="5.64"/><line class="cls-2" x1="10.33" y1="5.64" x2="15.34" y2="5.64"/><line class="cls-2" x1="4.04" y1="8.03" x2="15.34" y2="8.03"/><line class="cls-2" x1="13.39" y1="10.43" x2="15.34" y2="10.43"/><line class="cls-2" x1="4.04" y1="10.43" x2="9.11" y2="10.43"/><line class="cls-2" x1="4.04" y1="12.82" x2="15.34" y2="12.82"/><line class="cls-2" x1="12.3" y1="15.22" x2="15.34" y2="15.22"/></g></g></svg>

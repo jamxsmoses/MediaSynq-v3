@@ -114,7 +114,7 @@ const Jobs = () => {
     if (query === "") {
         searchedMpo = []
     } else {
-        searchedMpo = uniqueMpos.filter((mpo) => mpo.mpoNumber.includes(query));
+        searchedMpo = uniqueMpos.filter((mpo) => mpo.mpoNumber.toUpperCase().includes(query.toUpperCase()));
     }
 
     searchedMpo.forEach((mpo) => {
@@ -239,7 +239,7 @@ const Select2 = ({value, onChange, children }) => {
 const SearchResult= ({searchedMpo, navigate, query}) => {
     const location = useLocation().pathname;
 
-    if (query === "" || location === "/manage-mpos/search-result") {
+    if (query === "" && location === "/manage-mpos/search-result") {
         return <>
             <div className={`w-full h-full flex items-center justify-center xl:text-[16px] lg:text-[16px] md:text-[15px] text-[14px] font-medium`}>
                 <span className="text-white">Search MPO Number</span>

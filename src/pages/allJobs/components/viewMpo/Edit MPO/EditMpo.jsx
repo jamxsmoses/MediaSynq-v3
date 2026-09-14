@@ -17,6 +17,7 @@ const EditMpo = () => {
       const mpos = useMpoStore((state) => state.mpoData);
       const user = useAuthStore((state) => state.user);
       const theme = useThemeStore((state) => state.theme);
+      const fetchMpoData = useMpoStore((state) => state.fetchMpoData);
     
       let curMpo = [];
       curMpo = mpos.filter((mpo) => mpo.id === id);
@@ -219,13 +220,11 @@ const EditMpo = () => {
               },
             });
             setIsErr(false);
+            await fetchMpoData();
             setMsg("Document updated successfully");
             setTimeout(() => {
               setMsg("");
             }, 1000);
-            setTimeout(() => {
-              location.reload();
-            }, 2000)
           } catch (error) {
             setMsg("Error updating document: ", error.message);
           }
@@ -247,9 +246,14 @@ const EditMpo = () => {
     
         try {
           await deleteDoc(doc(db, "MPOS", id));
+          await fetchMpoData();
           setMsg("Delete successful!");
           setTimeout(() => {
-            navigate(-1);
+            if (curMpo.length < 1) {
+              navigate("/manage-mpos")
+            } else {
+              navigate(-1);
+            }
           }, 500);
         } catch (error) {
           setMsg("Error deleting document: ", error.msg);
