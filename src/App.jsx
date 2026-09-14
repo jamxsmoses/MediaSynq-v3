@@ -18,6 +18,7 @@ import { useLocationStore } from './store/locationStore';
 import DailyCampaigns from './pages/dailyCampaigns/DailyCampaigns';
 import NewMpo from './pages/newMpo/NewMpo';
 import Reconcile from './pages/reconcile/Reconcile';
+import Invoice from './pages/invoice/Invoice';
 
 function App() {
   const setUser = useAuthStore((state) => state.setUser);
@@ -140,6 +141,7 @@ function App() {
             <Route path='/campaigns' element={<DailyCampaigns currentUser={user}/>}/>
             <Route path='/reconcile' element={<Reconcile />}/>
             <Route path='/new-mpo' element={<NewMpo />}/>
+            <Route path='/invoice' element={<Invoice />}/>
           </Routes>
         </main>
       </div>
