@@ -10,6 +10,7 @@ export const useMpoStore = create((set) => ({
 
   fetchMpoData: async () => {
     const user = useAuthStore.getState().user;
+    const agency = user?.agency;
 
     // console.log("User inside fetchMpoData:", user);
 
@@ -18,16 +19,22 @@ export const useMpoStore = create((set) => ({
     try {
       let querySnapshot;
 
+      querySnapshot = await getDocs(collection(db, "MPOS"));
+
       // ✅ Case 1: User can see ALL agencies
       if (user.agency === "All") {
         querySnapshot = await getDocs(collection(db, "MPOS"));
       }
 
       // ✅ Case 2: User has selected agencies (array)
-      else if (Array.isArray(user.agency) && user.agency.length > 0) {
+      else if (Array.isArray(agency) && user.agency.length > 0) {
+        const agencyList = user.agency;
+        const uppercaseAgencies = agencyList.map((a) => a.toUpperCase());
+        const combined = [...agencyList, ...uppercaseAgencies];
+
         const q = query(
           collection(db, "MPOS"),
-          where("agency", "in", user.agency)
+          where("agency", "in", combined)
         );
 
         querySnapshot = await getDocs(q);

@@ -84,23 +84,17 @@ const Jobs = () => {
 
     sortedMpos.forEach((mpo) => {
         if (mpo.agency === "MAXIMEDIA GLOBAL LIMITED") {
-            mpo.agency = "MAXIMEDIA LTD"
-        }
-
-        if (mpo.agency === "SUMMIT CREST MEDIA CONSULTING") {
-            mpo.agency = "SUMMIT CREST"
-        }
-
-        if (mpo.agency === "OTB MEDIA CONCEPT LIMITED") {
-            mpo.agency = "OTB MEDIA LTD"
-        }
-
-        if (mpo.agency === "PROSPECTS MEDIA & COMMUNICATIONS") {
-            mpo.agency = "PROSPECTS MEDIA"
-        }
-
-        if (mpo.agency === "SIMPLY BLACK ADVERTISING & CONSULTANCY LIMITED") {
-            mpo.agency = "SIMPLY BLACK"
+            mpo.agencyShort = "MAXIMEDIA LTD"
+        } else if (mpo.agency === "SUMMIT CREST MEDIA CONSULTING") {
+            mpo.agencyShort = "SUMMIT CREST"
+        } else if (mpo.agency === "OTB MEDIA CONCEPT LIMITED") {
+            mpo.agencyShort = "OTB MEDIA LTD"
+        } else if (mpo.agency === "PROSPECTS MEDIA & COMMUNICATIONS") {
+            mpo.agencyShort = "PROSPECTS MEDIA"
+        } else if (mpo.agency === "SIMPLY BLACK ADVERTISING & CONSULTANCY LIMITED") {
+            mpo.agencyShort = "SIMPLY BLACK"
+        } else {
+            mpo.agencyShort = mpo.agency
         }
     })
 

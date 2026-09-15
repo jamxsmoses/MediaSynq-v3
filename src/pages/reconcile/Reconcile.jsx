@@ -1,6 +1,7 @@
+import "./Reconcile.css"
 import { useThemeStore } from "../../store/themeStore";
 import { useMpoStore } from "../../store/mpoStore";
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import "animate.css"
 import { formatRate } from "../../components/functions/Functions";
 import useSearchStore from "../../store/useSearchStore";
@@ -12,14 +13,27 @@ import * as XLSX from 'xlsx'
 import { saveAs } from "file-saver";
 import exportDark from "./imgs/exportDark.svg"
 import exportLight from "./imgs/exportLight.svg"
+import { useAuthStore } from "../../store/authStore";
+import filterIcon from "./imgs/filterIcon.svg"
 
 const Reconcile = () => {
+    const [panelWidth, setPanelWidth] = useState(300);
+    const isDragging = useRef(false);
+    const startX = useRef(0);
+    const startWidth = useRef(0);
+
     const mpos = useMpoStore((state) => state.mpoData);
+    const user = useAuthStore((state) => state.user);
+    const [isAscending, setIsAscending] = useState(false);
 
     mpos.forEach((mpo) => {
+        mpo.agency = mpo.agency.trim();
         mpo.agency = mpo.agency.toUpperCase();
         mpo.client = mpo.client.toUpperCase().trim();
         mpo.brand = mpo.brand.toUpperCase().trim();
+        if (mpo.agency.includes("SIMPLY BLACK")) {
+            mpo.agency = "SIMPLY BLACK ADVERTISING & CONSULTANCY LIMITED"
+        }
         if (mpo.agency === "MEDIA PERSPECTIVES") {
             mpo.agencyShort = "MP"
         } else if (mpo.agency === "PHD MEDIA") {
@@ -102,6 +116,43 @@ const Reconcile = () => {
     const uniqueBrands = Array.from(
         new Map(mpos.map((item) => [item.brand.toUpperCase(), item])).values()
     );
+    
+    const userAgency = user.agency;
+
+    let newArr = [];
+    
+    if (user.agency !== "All") {
+        newArr = userAgency.map((agency, id) => ({ agency, id }));
+    }
+
+    newArr.forEach((item) => {
+        item.agency = item.agency.trim();
+        item.agency = item.agency.toUpperCase();
+        if (item.agency.includes("SIMPLY BLACK")) {
+            item.agency = "SIMPLY BLACK ADVERTISING & CONSULTANCY LIMITED"
+        }
+        if (item.agency === "MEDIA PERSPECTIVES") {
+            item.agencyShort = "MP"
+        } else if (item.agency === "PHD MEDIA") {
+            item.agencyShort = "PHD"
+        } else if (item.agency.includes("SIMPLY BLACK")) {
+            item.agencyShort = "SYMPLY B"
+        } else if (item.agency.includes("MAXIMEDIA GLOBAL LIMITED")) {
+            item.agencyShort = "MAXIMEDIA"
+        } else if (item.agency === "GLORYCAP LIMITED") {
+            item.agencyShort = "GLORYCAP"
+        } else if (item.agency === "TOLARAM LIMITED") {
+            item.agencyShort = "TOLARAM"
+        } else if (item.agency === "SUMMIT CREST MEDIA CONSULTING") {
+            item.agencyShort = "SUMMIT C."
+        } else if (item.agency === "OTB MEDIA CONCEPT LIMITED") {
+            item.agencyShort = "OTB MEDIA"
+        } else if (item.agency === "PROSPECTS MEDIA & COMMUNICATIONS") {
+            item.agencyShort = "PROSPECTS M&C"
+        } else {
+            item.agencyShort = item.agency
+        }
+    })
 
     // filter Years
     const  filteredYears = year.length < 1 ? mpos : mpos.filter((mpo) => year.includes(mpo.year));
@@ -140,36 +191,55 @@ const Reconcile = () => {
 
     sortedMpos = mainMpos.sort((a, b) => {
         // 1. Sort by year (most recent first)
-        if (a.year !== b.year) {
-            return b.year - a.year;
+        const yearA = Number(a.year) || 0;
+        const yearB = Number(b.year) || 0;
+        if (yearA !== yearB) {
+            return yearB - yearA;
         }
 
         // 2. Sort by month (December to January)
         const monthOrder = {
-            'January': 1, 'February': 2, 'March': 3, 'April': 4,
-            'May': 5, 'June': 6, 'July': 7, 'August': 8,
-            'September': 9, 'October': 10, 'November': 11, 'December': 12
+            'january': 1, 'february': 2, 'march': 3, 'april': 4,
+            'may': 5, 'june': 6, 'july': 7, 'august': 8,
+            'september': 9, 'october': 10, 'november': 11, 'december': 12
         };
 
-        const monthA = monthOrder[a.Month] || monthOrder[a.month] || 0;
-        const monthB = monthOrder[b.Month] || monthOrder[b.month] || 0;
+        // Normalize month - handle both cases and undefined
+        const getMonthValue = (obj) => {
+            const monthStr = (obj.Month || obj.month || '').toLowerCase();
+            return monthOrder[monthStr] || 0;
+        };
+
+        const monthA = getMonthValue(a);
+        const monthB = getMonthValue(b);
 
         if (monthA !== monthB) {
+            // if (!ascending) {
+            //     return monthA - monthB; // Lower month number (January) first
+            // }
+            
             return monthB - monthA; // Higher month number (December) first
         }
 
-        // 3. Sort by agency (ascending)
-        if (a.agency !== b.agency) {
-            return a.agency.localeCompare(b.agency);
+        // 3. Sort by agency (ascending) - with null safety
+        const agencyA = (a.agency || '').toString();
+        const agencyB = (b.agency || '').toString();
+        const agencyCompare = agencyA.localeCompare(agencyB);
+        if (agencyCompare !== 0) {
+            return agencyCompare;
         }
 
-        // 3. Sort by MPO number
-        if (a.mpoNumber !== b.mpoNumber) {
-            return a.mpoNumber - b.mpoNumber; // Ascending order
+        // 4. Sort by MPO number - with type conversion
+        const mpoA = Number(a.mpoNumber) || 0;
+        const mpoB = Number(b.mpoNumber) || 0;
+        if (mpoA !== mpoB) {
+            return mpoA - mpoB; // Ascending order
         }
 
-        // 4. For same MPO number, sort by serial number (lowest first)
-        return a.sn - b.sn;
+        // 5. For same MPO number, sort by serial number (lowest first)
+        const snA = Number(a.sn) || 0;
+        const snB = Number(b.sn) || 0;
+        return snA - snB;
     });
     
     function calcVolDisct (a, b) {
@@ -294,12 +364,34 @@ const Reconcile = () => {
         saveAs(blob, 'DataReport.xlsx');
     };
 
+    const onResizeStart = (e) => {
+        isDragging.current = true;
+        startX.current = e.clientX;
+        startWidth.current = panelWidth;
+        e.currentTarget.setPointerCapture(e.pointerId);
+        document.body.style.cursor = 'ew-resize';
+        document.body.style.userSelect = 'none';
+    };
+
+    const onResizeMove = (e) => {
+        if (!isDragging.current) return;
+        const delta = e.clientX - startX.current;
+        const next = Math.min(900, Math.max(150, startWidth.current + delta));
+        setPanelWidth(next);
+    };
+
+    const onResizeEnd = (e) => {
+        isDragging.current = false;
+        e.currentTarget.releasePointerCapture(e.pointerId);
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+    };
 
     return <>
         {
             <div className={`w-full h-[100%] ${theme === "light" ? "bg-gray-200" : "bg-black"} smooth flex flex-col gap-[10px] relative`}>
             {/* filter container */}
-            <div className={`w-full h-[5%] ${theme === "light" ? "bg-[#0d2547]" : "bg-[#001026]"} smooth rounded-[10px] flex items-center xl:justify-start lg:justify-start justify-between px-[20px] gap-x-[40px]`}>
+            <div className={`w-full h-[5%] ${theme === "light" ? "bg-[#0d2547]" : "bg-[#001026]"} smooth rounded-[10px] flex items-center xl:justify-start lg:justify-start justify-between px-[20px] py-[20px] gap-x-[40px]`}>
                 
                 {/* Direction Icons */}
                 <div className="flex gap-x-[10px]">
@@ -331,7 +423,7 @@ const Reconcile = () => {
               </div>
 
                 {/* Save to Excel */}
-                <div onClick={handleExport} className={`pb-[5px] cursor-pointer xl:w-[30px] lg:w-[28px] md:w-[25px] w-[24px] xl:h-[30px] lg:g-[28px] md:h-[25px] h-[24px] flex items-center justify-center rounded-[50%] p-[3px] ${theme === "light" ? "bg-white" : "bg-blue-500"} smooth `}>
+                <div onClick={handleExport} className={`pb-[5px] cursor-pointer xl:w-[26px] lg:w-[24px] md:w-[22px] w-[20px] xl:h-[26px] lg:g-[24px] md:h-[22px] h-[20px] flex items-center justify-center rounded-[50%] p-[3px] ${theme === "light" ? "bg-white" : "bg-blue-500"} smooth `}>
                     <img src={theme === "light" ? exportLight : exportDark} alt="export icon" className="w-[58%]" />
                 </div>
             </div>
@@ -344,8 +436,8 @@ const Reconcile = () => {
                             {/* Table Flex Div */}
                                     <div className="w-full flex h-full">
                                         {/* Div for left part of table */}
-                                        <div ref={divOneRef} onScroll={() => handleScroll(divOneRef, divTwoRef)} 
-                                        className="h-full pb-[10px] mr-[5px] overflow-y-auto overflow-x-auto hideScroll">
+                                        <div style={{ width: panelWidth, flexShrink: 0, }} ref={divOneRef} onScroll={() => handleScroll(divOneRef, divTwoRef)} 
+                                        className="custom-scroll-container hideScroll-Y-axis w-[350px] h-full pb-[10px] mr-[5px] overflow-y-auto overflow-x-auto ">
                                             <table style={{ border: "none" }}  className="w-full"> 
                                             <thead className={`bg-[#000000] h-[20px] border-none font-semibold text-center text-white xl:text-[12px] lg:text-[11px] md:text-[10px] text-[9px]`}
                                         style={{ border: "none" }}>
@@ -410,10 +502,23 @@ const Reconcile = () => {
                                             </tbody>
                                             </table>
                                         </div>
+                                        <div
+                                            onPointerDown={onResizeStart}
+                                            onPointerMove={onResizeMove}
+                                            onPointerUp={onResizeEnd}
+                                            onPointerCancel={onResizeEnd}
+                                            style={{
+                                                width: 6,
+                                                cursor: 'ew-resize',
+                                                background: '#ccc',
+                                                flexShrink: 0,
+                                                touchAction: 'none',
+                                            }}
+                                        />
 
                                         {/* Div for right part of table */}
                                         <div ref={divTwoRef} onScroll={() => handleScroll(divTwoRef, divOneRef)} 
-                                        className="fileDiv w-full h-full overflow-y-auto overflow-x-auto">
+                                        className="custom-scroll-container w-full h-full overflow-y-auto overflow-x-auto">
                                             <table style={{ border: "none" }}  className="w-full"> 
                                             <thead className={`bg-[#000000] h-[20px] border-none font-semibold text-center text-white xl:text-[12px] lg:text-[11px] md:text-[10px] text-[9px]`}
                                                 style={{ border: "none" }}>
@@ -433,24 +538,33 @@ const Reconcile = () => {
                                                             <div className="w-full h-full relative">
                                                                 <div onMouseOver={() => {setAgencyFilterIsVisible(true)}} onMouseOut={() => {setAgencyFilterIsVisible(false)}} 
                                                                 className={`absolute bg-white w-full top-0 smooth`}>
-                                                                    {uniqueAgencies.map((item) => (
+                                                                    {user.agency === "All" ? (uniqueAgencies.map((item) => (
                                                                         <div onClick={() => {
                                                                             !agency.includes(item.agency.toUpperCase()) ? addItem(item.agency.toUpperCase(), agency, setAgency) : removeItem(item.agency.toUpperCase(), agency, setAgency)
                                                                         }} className={`${!agency.includes(item.agency.toUpperCase()) ? "" : "bg-blue-500 text-white"} hover:bg-blue-500 hover:text-white smooth border-b-[1px] border-b-[#00000080] cursor-pointer text-black px-[3px] flex items-center justify-between`} key={item.id}>
                                                                             <span className="xl:text-[11px] lg:text-[10px] md:text-[9px] text-[9px]">{`${item.agencyShort.toUpperCase()}`}</span>
                                                                         </div>
-                                                                    ))}
+                                                                    ))) : (newArr.map((item) => (
+                                                                        <div onClick={() => {
+                                                                            !agency.includes(item.agency.toUpperCase()) ? addItem(item.agency.toUpperCase(), agency, setAgency) : removeItem(item.agency.toUpperCase(), agency, setAgency)
+                                                                        }} className={`${!agency.includes(item.agency.toUpperCase()) ? "" : "bg-blue-500 text-white"} hover:bg-blue-500 hover:text-white smooth border-b-[1px] border-b-[#00000080] cursor-pointer text-black px-[3px] flex items-center justify-between`} key={item.id}>
+                                                                            <span className="xl:text-[11px] lg:text-[10px] md:text-[9px] text-[9px]">{`${item.agencyShort.toUpperCase()}`}</span>
+                                                                        </div>
+                                                                    )))}
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </td>
                                                     {/* Months FIlter */}
-                                                    <td className={`text-left relative filterButton`}>
+                                                    <td className={`text-left relative filterButton flex items-center justify-between w-[120px]`}>
                                                         <div onMouseOver={() => {setMonthFilterIsVisible(true)}} onMouseOut={() => setMonthFilterIsVisible(false)}
                                                             className={`cursor-pointer ${theme === "light" ? "bg-[#2D2D2D]" : "bg-[#091526]"} !w-[80px] flex items-center justify-between px-[5px]`}>
-                                                                <span>Months</span>
-                                                                <div className={`${month.length > 0 ? "opacity-[100%]" : "opacity-[0%]"} w-[5px] h-[5px] rounded-[50%] bg-red-500 smooth`}></div>
-                                                            </div>
+                                                            <span>Months</span>
+                                                            <div className={`${month.length > 0 ? "opacity-[100%]" : "opacity-[0%]"} w-[5px] h-[5px] rounded-[50%] bg-red-500 smooth`}></div>
+                                                        </div>
+                                                        <div onClick={() => {setIsAscending(!isAscending)}} className="w-[20px] hidden cursor-pointer">
+                                                            <img src={filterIcon} alt="filterIcon" className={`w-full smooth ${isAscending ? "rotate-[180deg] flipImg" : ""}`} />
+                                                        </div>
                                                         <div className={`absolute top-[120%] w-[100px] ${monthFilterIsVisible ? "h-[500px]" : "h-[0px]"} overflow-y-auto fileDiv`}>
                                                             <div className="w-full h-full relative">
                                                                 <div onMouseOver={() => {setMonthFilterIsVisible(true)}} onMouseOut={() => setMonthFilterIsVisible(false)}
@@ -458,9 +572,8 @@ const Reconcile = () => {
                                                                     {months.map((item) => (
                                                                         <div onClick={() => {
                                                                             !month.includes(item.toUpperCase()) ? addItem(item.toUpperCase(), month, setMonth) : removeItem(item.toUpperCase(), month, setMonth)
-                                                                        }} className={`${!month.includes(item.month) ? "" : "bg-blue-500 text-white"} hover:bg-blue-500 hover:text-white smooth border-b-[1px] border-b-[#00000080] cursor-pointer text-black px-[3px] flex items-center justify-between`} key={months.indexOf(item)}>
+                                                                        }} className={`${!month.includes(item.toUpperCase()) ? "" : "bg-blue-500 text-white hover:bg-blue-500 hover:text-white"} hover:bg-blue-300 hover:text-black smooth border-b-[1px] border-b-[#00000080] cursor-pointer text-black px-[3px] flex items-center justify-between`} key={months.indexOf(item)}>
                                                                             <span className="xl:text-[11px] lg:text-[10px] md:text-[9px] text-[9px]">{`${item}`}</span>
-                                                                            <div className={`${month.includes(item.toUpperCase()) ? "block" : "hidden"} w-[6px] h-[6px] rounded-[50%] bg-red-500`}></div>
                                                                         </div>
                                                                     ))}
                                                                 </div>
@@ -572,7 +685,7 @@ const Reconcile = () => {
                                                     <td className="text-center !text-blue-500 !font-bold">{totalSpots.toLocaleString("en-US")}</td>
                                                     <td className="text-right !text-blue-500 !font-bold">{formatRate(totalRate)}</td>
                                                     <td className="text-right !text-blue-500 !font-bold">{formatRate(totalGross)}</td>
-                                                    <td colSpan="3"></td>
+                                                    <td colSpan="6"></td>
                                                     <td className="text-right !text-blue-500 !font-bold">{formatRate(totalNet)}</td>
                                                 </tr>
                                             </tbody>

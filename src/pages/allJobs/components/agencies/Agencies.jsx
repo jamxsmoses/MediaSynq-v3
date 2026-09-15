@@ -14,7 +14,7 @@ const Agencies = () => {
                     <div key={item.id} onClick={() => {
                         navigate(`/manage-mpos/${item.agency}`)
                     }}>
-                        <Folder agency={item.agency} />
+                        <Folder agency={item.agencyShort} />
                     </div>
                 )
             )}

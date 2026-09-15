@@ -27,6 +27,12 @@ const Dashboard = () => {
         setBalanceVisible(!balanceVisible);
     }
 
+    const uniqueMpos2 = Array.from(
+        new Map(mpos.map((item) => [item.agency, item])).values()
+    );
+
+    console.log(mpos)
+
     // Line total for each mpo
     mpos.forEach((mpo) => {
         mpo.lineTotal = mpo.rate * mpo.spots

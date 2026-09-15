@@ -31,10 +31,10 @@ export const useAgencyStore = create((set) => ({
       const filteredAgency = allAgencyData.filter(
         (item) => item.agency === user.agency
       );
-
+      
       // ✅ 3️⃣ Store only matching data
       set({
-        agencyData: filteredMpo,
+        agencyData: filteredAgency,
         loadingAgency: false,
       });
 
