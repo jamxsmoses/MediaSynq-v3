@@ -36,6 +36,8 @@ function App() {
     // This function runs only on the very first render
     return localStorage.getItem("hasSeenFeature") === "true";
   });
+
+  console.log(user ? "Yes" : "No")
   
 
   useEffect(() => {    
@@ -124,7 +126,7 @@ function App() {
 
   return <>
     <div className={`appContainer w-[100vw] h-[100vh] ${theme === 'light' ? "bg-gray-200" : 'bg-black'} smooth relative`}>
-      <div className={`smooth absolute z-[100] w-full h-full top-0 left-0 bg-[#00000099] ${!hasSeen ? "flex" : "hidden"} items-center justify-center`}>
+      <div className={`smooth absolute z-[100] w-full h-full top-0 left-0 bg-[#00000099] ${user && !hasSeen ? "flex" : "hidden"} items-center justify-center`}>
         <div className='relative flex gap-[10px] flex-col p-[20px] items-center justify-center xl:w-[40%] lg:w-[60%] md:w-[75%] w-[90%] xl:h-[500px] lg:h-[450px] md:h-[400px] h-[450px] bg-white rounded-[20px]'>
           
           {/* Button to close pop up */}
