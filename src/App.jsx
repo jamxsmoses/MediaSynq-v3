@@ -25,7 +25,8 @@ import logo from "../public/icons/icon-192.png"
 function App() {
   const setUser = useAuthStore((state) => state.setUser);
   const user = useAuthStore((state) => state.user);
-  const fetchMpoData = useMpoStore((state) => state.fetchMpoData)
+  const fetchMpoData = useMpoStore((state) => state.fetchMpoData);
+  const mpos = useMpoStore((state) => state.mpoData);
   const location = useLocation();
   const [checkingAuth, setCheckingAuth] = useState(true);
   const theme = useThemeStore((state) => state.theme);
@@ -36,8 +37,6 @@ function App() {
     // This function runs only on the very first render
     return localStorage.getItem("hasSeenFeature") === "true";
   });
-
-  console.log(user ? "Yes" : "No")
   
 
   useEffect(() => {    
@@ -46,25 +45,7 @@ function App() {
     }
   }, [location.pathname]);
 
-  // const [theme, setTheme] = useState(() => {
-  //   // Check initial system preference
-  //   return window.matchMedia('(prefers-color-scheme: dark)').matches
-  //     ? 'dark'
-  //     : 'light';
-  // });
-
-  // useEffect(() => {
-  //   // Listen for system theme changes
-  //   const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-  //   const handleChange = (e) => {
-  //     setTheme(e.matches ? 'dark' : 'light');
-  //   };
-
-  //   mediaQuery.addEventListener('change', handleChange);
-    
-  //   // Clean up listener
-  //   return () => mediaQuery.removeEventListener('change', handleChange);
-  // }, []);
+  
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
@@ -126,7 +107,7 @@ function App() {
 
   return <>
     <div className={`appContainer w-[100vw] h-[100vh] ${theme === 'light' ? "bg-gray-200" : 'bg-black'} smooth relative`}>
-      <div className={`smooth absolute z-[100] w-full h-full top-0 left-0 bg-[#00000099] ${user && !hasSeen ? "flex" : "hidden"} items-center justify-center`}>
+      <div className={`smooth absolute z-[100] w-full h-full top-0 left-0 bg-[#00000099] ${!hasSeen && !mpos.length < 1 ? "flex" : "hidden"} items-center justify-center`}>
         <div className='relative flex gap-[10px] flex-col p-[20px] items-center justify-center xl:w-[40%] lg:w-[60%] md:w-[75%] w-[90%] xl:h-[500px] lg:h-[450px] md:h-[400px] h-[450px] bg-white rounded-[20px]'>
           
           {/* Button to close pop up */}
