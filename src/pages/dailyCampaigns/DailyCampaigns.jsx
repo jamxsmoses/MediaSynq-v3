@@ -400,15 +400,17 @@ const DailyCampaigns = () => {
   if (mpos.length > 1) {
     return (
       <div className={`${theme === "light" ? "bg-[#0d2547]" : "bg-[#001026]"} smooth rounded-[15px] w-full h-full flex xl:flex-row lg:flex-row flex-col items-center overflow-hidden`}>
-        {}
-        <div className={`flex gap-x-[5px] justify-between ${theme === "light" ? "bg-[#001838]" : "bg-[#001838]"} p-[20px] flex-col
-          xl:gap-y-[20px] xl:w-[18%] xl:justify-start xl:h-full
-          lg:w-[20%] lg:gap-y-[20px] lg:justify-start lg:h-full w-full items-center`}>
+        
+        {/* Sidebar Container */}
+        <div className={`flex gap-x-[5px] justify-between ${theme === "light" ? "bg-[#001838]" : "bg-[#001838]"} p-[20px] flex-col xl:gap-y-[20px] xl:w-[18%] xl:justify-start xl:h-full lg:w-[20%] lg:gap-y-[20px] lg:justify-start lg:h-full w-full items-center`}>
           <div className="xl:w-full lg:w-full flex xl:flex-col lg:flex-col flex-row gap-y-[10px] gap-x-[20px] mb-[20px]">
+            
+            {/* Div for year and month container */}
             <div className="flex xl:flex-row lg:flex-col flex-row gap-y-[10px] gap-x-[20px] xl:w-full lg:w-full md:w-[80%] justify-between ">
+              
               {/* Year Div */}
-              <div className="flex flex-col items-start justify-start w-full">
-                <span className="uppercase text-[9px] rounded-[5px] bg-blue-500 px-[5px] py-[2px] font-bold text-white">
+                <div className="flex flex-col items-start justify-start w-full">
+                <span className="uppercase text-[8px] rounded-[5px] bg-blue-500 px-[5px] py-[2px] font-bold text-white">
                     Year:
                 </span>
                   <div className="flex ">
@@ -423,9 +425,10 @@ const DailyCampaigns = () => {
                     </div>
                   </div>
                 </div>
+
                 {/* Month Div */}
                 <div className="flex flex-col items-start justify-start w-full">
-                  <span className="uppercase text-[9px] rounded-[5px] bg-blue-500 px-[5px] py-[2px] font-bold text-white">
+                  <span className="uppercase text-[8px] rounded-[5px] bg-blue-500 px-[5px] py-[2px] font-bold text-white">
                       Month:
                   </span>
                     <span className="font-bold text-white">
@@ -448,8 +451,10 @@ const DailyCampaigns = () => {
                 </span>
                 </div>
             </div>
+
+            {/* Div for campaign type */}
             <div className="flex flex-col gap-[6px] items-start justify-start w-full">
-              <span className="uppercase text-[9px] rounded-[5px] bg-blue-500 px-[5px] py-[2px] font-bold text-white">
+              <span className="uppercase text-[8px] rounded-[5px] bg-blue-500 px-[5px] py-[2px] font-bold text-white">
                       Campaign Type:
                   </span>
               <Select onChange={setSelectedType}>
@@ -466,6 +471,7 @@ const DailyCampaigns = () => {
             </div>
           </div>
           
+          {/* Days of month container */}
           <div className="daysSlider xl:w-full lg:w-full md:w-[80%] flex flex-wrap gap-[8px] justify-start">
             {daysOfWeek.map((day) => (
               <div key={day}>
@@ -479,7 +485,7 @@ const DailyCampaigns = () => {
                     day.toString() === currentDay.toString()
                       ? "bg-blue-500"
                       : "bg-white"
-                  } font-medium xl:text-[13px] lg:text-[12px] md:text-[11px] rounded-[6px] cursor-pointer sm:text-[10px] text-[10px] flex items-center justify-center xl:!w-[28px] lg:!w-[25px] md:!w-[22px] sm:!w-[18px] !w-[18px] xl:!h-[28px] lg:!h-[25px] md:!h-[22px] sm:!h-[18px] !h-[2px] p-[10px] hover:!bg-blue-500 hover:!text-white hover:shadow hover:shadow-lg shadow-black smooth`}
+                  } font-medium xl:text-[11px] lg:text-[10px] md:text-[9px] text-[8px] rounded-[6px] cursor-pointer sm:text-[10px] flex items-center justify-center xl:!w-[25px] lg:!w-[22px] md:!w-[20px] sm:!w-[18px] !w-[18px] xl:!h-[25px] lg:!h-[22px] md:!h-[20px] sm:!h-[18px] !h-[2px] hover:!bg-blue-500 hover:!text-white hover:shadow hover:shadow-lg shadow-black smooth`}
                 >
                   {day}
                 </button>
@@ -487,48 +493,47 @@ const DailyCampaigns = () => {
             ))}
           </div>
         </div>
-        <div className="mx-auto xl:w-[82%] lg:w-[80%] md:w-[95%] sm:w-full w-full h-full pt-[20px]">
-          <div className={`w-full h-[5%] ${theme === "light" ? "bg-[#001838]" : "bg-[#001838]"} xl:block lg:block hidden`}></div>
-          <div className="w-full xl:h-[95%] lg:h-[95%] p-[20px]">
-              <div className="w-full h-full overflow-y-auto fileDiv">
+
+        {/* Main container */}
+        <div className="mx-auto xl:w-[82%] lg:w-[80%] md:w-[95%] sm:w-full w-full h-full">
+          <div className={`w-full h-[5%]  ${theme === "light" ? "bg-[#001838]" : "bg-[#001838]"} xl:block lg:block hidden`}></div>
+          <div className="w-[95%] mx-auto xl:h-[95%] lg:h-[95%] h-[80%] py-[20px]">
                   {todaysCampaigns.length < 1 ? (
-              <h1 className="text-white text-center font-medium mt-[20px] xl:text-[20px] lg:text-[20px] md:text-[18px] sm:text-[15px] text-[15px]">
-                  No Campaign for this day!
-              </h1>
-              ) : (
-              <div className="campaigns">
-                  <div className="overflow-x-auto fileDiv h-full">
-                  <table className="w-full">
-                      <thead className="thead xl:text-[12px] lg:text-[11px] md:text-[10px] sm:text-[10px] text-[9px]">
-                      <tr className="bg-black text-white">
-                          <td>S/N</td>
-                          <td>Brand</td>
-                          <td>Campaign</td>
-                          <td className="text-center">Duration</td>
-                          <td className="text-center">Spots</td>
-                          <td>Specification</td>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      {todaysCampaigns.map((mpo) => (
-                          <tr style={{borderLeft: "none", borderRight: "none"}}
-                          className={`whitespace-nowrap main-tr animate__animated animate__fadeInUp thead xl:text-[12px] lg:text-[11px] md:text-[10px] sm:text-[10px] text-[9px] text-white`}
-                          key={todaysCampaigns.indexOf(mpo)}
-                          >
-                          <td style={{borderLeft: "none"}}>{todaysCampaigns.indexOf(mpo) + 1}</td>
-                          <td>{mpo.brand}</td>
-                          <td>{mpo.campaign}</td>
-                          <td className="text-center">{toSentenceCase(mpo.duration)}</td>
-                          <td className="text-center">{mpo.schedule.dayValue}</td>
-                          <td style={{borderRight: "none"}}>{mpo.specification}</td>
-                          </tr>
-                      ))}
-                      </tbody>
-                  </table>
-                  </div>
-              </div>
-              )}
-              </div>
+                  <h1 className="text-white text-center font-medium mt-[20px] xl:text-[20px] lg:text-[20px] md:text-[18px] sm:text-[15px] text-[15px]">
+                      No Campaign for this day!
+                  </h1>
+                  ) : (
+                      <div className="w-full h-full overflow-auto fileDiv pb-[20px]">
+                        <table className="w-full h-full">
+                                  <thead className="xl:text-[12px] lg:text-[11px] md:text-[10px] sm:text-[10px] text-[9px]">
+                                  <tr className="bg-black text-white">
+                                      <td>S/N</td>
+                                      <td>Brand</td>
+                                      <td>Campaign</td>
+                                      <td className="text-center">Duration</td>
+                                      <td className="text-center">Spots</td>
+                                      <td>Specification</td>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  {todaysCampaigns.map((mpo) => (
+                                      <tr style={{borderLeft: "none", borderRight: "none"}}
+                                      className={`whitespace-nowrap main-tr animate__animated animate__fadeInUp thead xl:text-[12px] lg:text-[11px] md:text-[10px] sm:text-[10px] text-[9px] text-white`}
+                                      key={todaysCampaigns.indexOf(mpo)}
+                                      >
+                                      <td style={{borderLeft: "none"}}>{todaysCampaigns.indexOf(mpo) + 1}</td>
+                                      <td>{mpo.brand}</td>
+                                      <td>{mpo.campaign}</td>
+                                      <td className="text-center">{toSentenceCase(mpo.duration)}</td>
+                                      <td className="text-center">{mpo.schedule.dayValue}</td>
+                                      <td style={{borderRight: "none"}}>{mpo.specification}</td>
+                                      </tr>
+                                  ))}
+                                  </tbody>
+                        </table>
+                      </div>
+
+                  )}
           </div>
         </div>
       </div>

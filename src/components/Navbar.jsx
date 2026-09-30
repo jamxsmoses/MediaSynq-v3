@@ -24,6 +24,7 @@ import reconcileDark1 from "../assets/images/navIcons/darkThemeIcons/reconcile.s
 import reconcileDark2 from "../assets/images/navIcons/darkThemeIcons/reconcile2.svg"
 import reconcileLight1 from "../assets/images/navIcons/lightThemeIcons/reconcile.svg"
 import reconcileLight2 from "../assets/images/navIcons/lightThemeIcons/reconcile2.svg"
+import InstallPWA from "../InstallPwa"
 
 import "animate.css"
 import { useThemeStore } from "../store/themeStore"
@@ -127,6 +128,9 @@ const Navbar = (prop) => {
                     <Icon key={pages.indexOf(page)} page={page} pageName={pageName} theme={theme}/>
                 ))}
             </div>
+
+            
+
             <div className="xl:flex lg:flex md:flex hidden justify-centerhidden pb-[20px]">
                 <div onClick={toggleTheme} className={`w-[40px] h-[20px] bg-gray-800 rounded-2xl px-1 py-2 relative ${theme === 'light' ? "justify-start" : "justify-end"} smooth cursor-pointer`}>
                     <div className={`w-[14px] h-[14px] rounded-2xl absolute top-[50%] translate-y-[-50%] ${theme === "light" ? "left-[10%] bg-white" : "left-[55%] bg-gray-400"} smooth`}></div>

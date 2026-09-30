@@ -19,6 +19,8 @@ import DailyCampaigns from './pages/dailyCampaigns/DailyCampaigns';
 import NewMpo from './pages/newMpo/NewMpo';
 import Reconcile from './pages/reconcile/Reconcile';
 import Invoice from './pages/invoice/Invoice';
+import "animate.css"
+import logo from "../public/icons/icon-192.png"
 
 function App() {
   const setUser = useAuthStore((state) => state.setUser);
@@ -28,8 +30,13 @@ function App() {
   const [checkingAuth, setCheckingAuth] = useState(true);
   const theme = useThemeStore((state) => state.theme);
   const toggleTheme = useThemeStore((state) => state.toggleTheme);
-  const setLocation = useLocationStore((state) => state.setLocation)
-
+  const setLocation = useLocationStore((state) => state.setLocation);
+  
+  const [hasSeen, setHasSeen] = useState(() => {
+    // This function runs only on the very first render
+    return localStorage.getItem("hasSeenFeature") === "true";
+  });
+  
 
   useEffect(() => {    
     if (location.pathname !== '/manage-mpos/search-result') {
@@ -116,7 +123,40 @@ function App() {
   }
 
   return <>
-    <div className={`appContainer w-[100vw] h-[100vh] ${theme === 'light' ? "bg-gray-200" : 'bg-black'} smooth`}>
+    <div className={`appContainer w-[100vw] h-[100vh] ${theme === 'light' ? "bg-gray-200" : 'bg-black'} smooth relative`}>
+      <div className={`smooth absolute z-[100] w-full h-full top-0 left-0 bg-[#00000099] ${!hasSeen ? "flex" : "hidden"} items-center justify-center`}>
+        <div className='relative flex gap-[10px] flex-col p-[20px] items-center justify-center xl:w-[40%] lg:w-[60%] md:w-[75%] w-[90%] xl:h-[500px] lg:h-[450px] md:h-[400px] h-[450px] bg-white rounded-[20px]'>
+          
+          {/* Button to close pop up */}
+          <div onClick={() => {
+            localStorage.setItem("hasSeenFeature", true);
+            setHasSeen(true);
+          }} className='w-[25px] cursor-pointer rounded-xl absolute top-[5%] right-[1%] flex items-center justify-center'>
+            <div className='relative w-full h-full rotate-[45deg]'>
+              <div className='absolute w-[80%] h-[3px] bg-[#121212] rounded-lg' ></div>
+              <div className='absolute w-[80%] h-[3px] bg-[#121212] rounded-lg rotate-[90deg]'></div>
+            </div>
+          </div>
+          
+          <div className='flex flex-col items-center'>
+            <img className='xl:w-[50px] lg:w-[45px] md:w-[40px] w-[35px]' src={logo} alt="Logo" />
+            <h1 className='font-bold xl:text-[24px] lg:text-[22px] md:text-[20px] text-[18px]'>MediaSynq is now installable!</h1>
+          </div>
+          <span className='text-center w-[80%] xl:text-[16px] lg:text-[14px] md:text-[14px] text-[13px]'>
+            Get the full app experience on your PC or mobile device — faster loading, and a home screen icon. 
+            <br /><br />
+            <span className='font-black'>On mobile (Android / iOS)</span>
+            <br />
+            <span className='font-semibold'>Android (Chrome):</span> Tap the ⋮ menu → "Install app". 
+            <br />
+            <span className='font-semibold'>iOS (Safari):</span> Tap the Share button → "Add to Home Screen". 
+            <br /><br />
+            <span className='font-black'>💻 On PC (Chrome / Edge):</span>
+            <br />
+            Click the install icon (⊕ or monitor icon) in the address bar → Install. Or open the browser menu → "Install MediaSynq".
+          </span>
+        </div>
+      </div>
       <div className={`w-full h-[5%] ${!user ? "hidden" : "flex"} items-center justify-between`}>
           <div className={`flex items-center justify-center xl:w-[135px] lg:w-[130px] md-w-[120px] h-[25px] md:w-[125px] sm:w-[100px] w-[85px] rounded-tr-[15px] rounded-br-[15px] xl:text-[15px] lg:text-[14px] md:text-[13px] text-[11px] font-semibold ${theme === "light" ? "text-gray-200 bg-[#001026]" : "text-black bg-[#008CFF]"} smooth`}>
             MediaSynq

@@ -10,10 +10,6 @@
   /* white-space: nowrap; */
 }
 
-.mngTableDiv::-webkit-scrollbar {
-  display: none;
-}
-
 * select option {
   font-size: 8px !important;
 }
@@ -21,3 +17,4 @@
 * {
     box-sizing: border-box;
 }
+

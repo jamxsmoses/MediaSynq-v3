@@ -56,10 +56,10 @@ const Jobs = () => {
     })
 
     allMpos.forEach((mpo) => {
-    mpo.mpoNumber = mpo.mpoNumber.replace(/\s/g, "");``
-    mpo.mpoNum = mpo.mpoNumber.replace(/\//g, "");
-    mpo.mpoNum = mpo.mpoNum.replace(/\s/g, "");
-  });
+        mpo.mpoNumber = mpo.mpoNumber.replace(/\s/g, "");``
+        mpo.mpoNum = mpo.mpoNumber.replace(/\//g, "");
+        mpo.mpoNum = mpo.mpoNum.replace(/\s/g, "");
+    });
 
   const sortedMpos = allMpos.sort((a, b) => {
     // First, compare by year
@@ -170,7 +170,7 @@ const Jobs = () => {
                     ref={inputRef}
                     onFocus={handleFocus}
                     onChange={(e) => setQuery(e.target.value)}
-                    className={`rounded-[10px] xl:py-[4px] lg:py-[4px] md:py-[5px] py-[6px] xl:px-[10px] lg:px-[10px] md:px-[12px] px-[14px] ${theme === "light" ? "bg-gray-200 border-[#001026] text-[#001026]" : "bg-black border-[#008CFF] text-[#008CFF]"} smooth border-[1px] outline-none uppercase
+                    className={`rounded-[10px] xl:py-[3px] lg:py-[2px] md:py-[4px] py-[6px] xl:px-[6px] lg:px-[8px] md:px-[10px] px-[12px] ${theme === "light" ? "bg-gray-200 border-[#001026] text-[#001026]" : "bg-black border-[#008CFF] text-[#008CFF]"} smooth border-[1px] outline-none uppercase
                     xl:text-[10px] lg:text-[9px] md:text-[8px] font-medium text-[7px]`}
                 />
                 <div onClick={() => {

@@ -58,10 +58,10 @@ function ViewMpo({allMonths, setAllMonths}) {
     if (curMpo.length < 1) {
       return;
     } else {
-      setMsg("Deleting")
       for (let i = 0; i < curMpo.length; i++) {
         try {
-          await deleteDoc(doc(db, "MPOS", curMpo[i].id));
+          await deleteDoc(doc(db, "MPOS", curMpo[i].id)); 
+          // Refetch once after all deletes
           await fetchMpoData();
           setMsg("Delete successful!");
         } catch (error) {
@@ -71,6 +71,8 @@ function ViewMpo({allMonths, setAllMonths}) {
     }
     navigate("/manage-mpos");
   };
+
+  
   const days = [
     "1",
     "2",

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage  } from 'zustand/middleware';
 
 // 1. Define the store with persistence
 export const useThemeStore = create(
@@ -7,16 +7,17 @@ export const useThemeStore = create(
     (set) => ({
       // Initial state
       theme: 'dark',
-      
+      setTheme: (theme) => set({ theme }),
       // Actions
       toggleTheme: () =>
         set((state) => ({
           theme: state.theme === 'light' ? 'dark' : 'light',
         })),
-      setTheme: (theme) => set({ theme }),
     }),
     {
-      name: 'theme-storage', // name of item in localStorage
+      name: 'theme',                        // localStorage key
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({ theme: state.theme }), // only persist theme
     }
   )
 );

@@ -51,3 +51,39 @@ h1 {
 .fileDiv {
   scrollbar-width: thin !important;
 }
+
+.custom-scroll-container {
+    overflow-x: auto;   /* Always show vertical scrollbar space */
+    overflow-y: auto;     /* Horizontal still scrolls, but scrollbar is hidden */
+}
+
+/* ---------- Vertical scrollbar (visible, custom) ---------- */
+.custom-scroll-container::-webkit-scrollbar {
+    width: 8px;           /* vertical scrollbar width */
+    height: 8px;          /* horizontal scrollbar height (needs a value!) */
+}
+
+.custom-scroll-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 2px;
+}
+
+.custom-scroll-container::-webkit-scrollbar-thumb {
+    background: #0d70ff;
+    border-radius: 4px;
+}
+
+.custom-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: #65a4fc;
+}
+
+/* ---------- Hide horizontal scrollbar only ---------- */
+.hideScroll-Y-axis::-webkit-scrollbar:vertical {
+    height: 0;
+    display: none;
+}
+
+/* Also hide the corner where the two scrollbars meet */
+.custom-scroll-container::-webkit-scrollbar-corner {
+    display: none;
+}

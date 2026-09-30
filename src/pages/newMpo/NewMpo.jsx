@@ -24,6 +24,45 @@ const NewMpo = () => {
     const [errStyle, setErrStyle] = useState(false);
     const user = useAuthStore((state) => state.user);
     const fetchMpoData = useMpoStore((state) => state.fetchMpoData);
+    const [month, setMonth] = useState("");
+    const [material, setMaterial] = useState("");
+    const [duration, setDuration] = useState("");
+    const [specification, setSpecification] = useState("");
+    const [rate, setRate] = useState("");
+    const [vd, setVd] = useState("");
+    const [ac, setAc] = useState("");
+    const [vat, setVat] = useState("");
+    const [one, setOne] = useState("");
+    const [two, settwo] = useState("");
+    const [three, setthree] = useState("");
+    const [four, setfour] = useState("");
+    const [five, setfive] = useState("");
+    const [six, setsix] = useState("");
+    const [seven, setseven] = useState("");
+    const [eight, seteight] = useState("");
+    const [nine, setnine] = useState("");
+    const [ten, setten] = useState("");
+    const [eleven, seteleven] = useState("");
+    const [twelve, settwelve] = useState("");
+    const [thirteen, setthirteen] = useState("");
+    const [fourteen, setfourteen] = useState("");
+    const [fifteen, setfifteen] = useState("");
+    const [sixteen, setsixteen] = useState("");
+    const [seventeen, setseventeen] = useState("");
+    const [eighteen, seteighteen] = useState("");
+    const [nineteen, setnineteen] = useState("");
+    const [twenty, settwenty] = useState("");
+    const [twentyone, settwentyone] = useState("");
+    const [twentytwo, settwentytwo] = useState("");
+    const [twentythree, settwentythree] = useState("");
+    const [twentyfour, settwentyfour] = useState("");
+    const [twentyfive, settwentyfive] = useState("");
+    const [twentysix, settwentysix] = useState("");
+    const [twentyseven, settwentyseven] = useState("");
+    const [twentyeight, settwentyeight] = useState("");
+    const [twentynine, settwentynine] = useState("");
+    const [thirty, setthirty] = useState("");
+    const [thirtyone, setthirtyone] = useState("");
 
 
     const days = [
@@ -164,15 +203,15 @@ function generateSecureId(length = 20) {
 const createEmptyRow = () => ({
     sn: "",
     sn2: generateSecureId(),
-    month: "",
-    material: "",
-    duration: "",
-    specification: "",
+    month: month,
+    material: material,
+    duration: duration,
+    specification: specification,
     spots: 0,
-    rate: "",
-    volumeDiscount: "",
-    agencyCommission: "",
-    vat: "",
+    rate: Number(rate),
+    volumeDiscount: Number(vd),
+    agencyCommission: Number(ac),
+    vat: Number(vat),
     invNum: exists ? Number(mpoMonth.length) : Number(mpoMonth.length + 1),
     mpoId: filteredAgency.length + 1,
     one: "",
@@ -211,7 +250,7 @@ const createEmptyRow = () => ({
 
 const [rows, setRows] = useState([
     createEmptyRow(), // Start with one empty row
-  ]);
+]);
 
 
 // Add row
@@ -312,25 +351,7 @@ const convertArrayToNestedSchedule = (dataArray) => {
     });
 };
     
-// const handleSubmit2 = () => {
-//     let mpoData = [];
-//     rows.forEach((item) => mpoData.push(item));
-//     mpoData.forEach((item) => {
-//         item.mpoNumber = selectedMpoNo;
-//         item.year = Number(selectedYear);
-//         item.agency = selectedAgency;
-//         item.client = selectedClient;
-//         item.brand = selectedBrand;
-//         item.campaign = selectedCampaign;
-//     })
-//     mpoData = mpoData.map((item, index) => ({
-//         ...item,
-//         sn: index + 1
-        
-//     }));
-//     let newData = convertArrayToNestedSchedule(mpoData);
-//     console.log(newData);
-// }
+
 
 const [loading, setLoading] = useState(false); 
 
@@ -499,7 +520,7 @@ return (
                 </div>
 
                 {/* Table Container */}
-                <div className="w-full mt-[20px] overflow-x-auto fileDiv">
+                <div className="w-full mt-[20px] custom-scroll-container">
                     <table style={{ border: "none" }} className="w-full">
                         <thead className={`h-[20px] border-none font-semibold text-center text-white xl:text-[12px] lg:text-[11px] md:text-[10px] text-[9px]`}
                             style={{ border: "none" }}>
@@ -522,7 +543,10 @@ return (
                                 <tr key={row.id} >
                                     <td className="text-left xl:text-[13px] lg:text-[12px] md:text-[11px] text-[10px]">{index + 1}</td>
                                     <td className="w-[150px]">
-                                        <select value={row.month} onChange={(e) => handleInputChange(row.sn2, 'month', e.target.value)}
+                                        <select value={row.month} onChange={(e) => {
+                                            handleInputChange(row.sn2, 'month', e.target.value);
+                                            setMonth(e.target.value)
+                                        }}
                                         className={`w-full py-[3px] outline-none xl:text-[13px] lg:text-[12px] md:text-[11px] text-[10px] cursor-pointer appearance-none`}
                                         >
                                             <option hidden >select month</option>
@@ -536,7 +560,10 @@ return (
                                             required
                                             type="text"
                                             value={row.material}
-                                            onChange={(e) => handleInputChange(row.sn2, 'material', e.target.value)}
+                                            onChange={(e) => {
+                                                handleInputChange(row.sn2, 'material', e.target.value);
+                                                setMaterial(e.target.value);
+                                            }}
                                             placeholder="...material"
                                         />
                                     </td>
@@ -545,7 +572,10 @@ return (
                                             required
                                             type="text"
                                             value={row.duration}
-                                            onChange={(e) => handleInputChange(row.sn2, 'duration', e.target.value)}
+                                            onChange={(e) => {
+                                                handleInputChange(row.sn2, 'duration', e.target.value);
+                                                setDuration(e.target.value);
+                                            }}
                                             placeholder="...duration"
                                         />
                                     </td>
@@ -554,7 +584,10 @@ return (
                                             required
                                             type="text"
                                             value={row.specification}
-                                            onChange={(e) => handleInputChange(row.sn2, 'specification', e.target.value)}
+                                            onChange={(e) => {
+                                                handleInputChange(row.sn2, 'specification', e.target.value);
+                                                setSpecification(e.target.value);
+                                            }}
                                             placeholder="...specification"
                                         />
                                     </td>
@@ -566,7 +599,10 @@ return (
                                             required
                                             type="number"
                                             value={row.rate}
-                                            onChange={(e) => handleInputChange(row.sn2, 'rate', Number(e.target.value))}
+                                            onChange={(e) => {
+                                                handleInputChange(row.sn2, 'rate', Number(e.target.value));
+                                                setRate(Number(e.target.value));
+                                            }}
                                             placeholder="...rate"
                                         />
                                     </td>
@@ -575,7 +611,10 @@ return (
                                             required
                                             type="number"
                                             value={row.volumeDiscount}
-                                            onChange={(e) => handleInputChange(row.sn2, 'volumeDiscount', Number(e.target.value))}
+                                            onChange={(e) => {
+                                                handleInputChange(row.sn2, 'volumeDiscount', Number(e.target.value));
+                                                setVd(Number(e.target.value));
+                                            }}
                                             placeholder="...v.d"
                                         />
                                     </td>
@@ -584,7 +623,10 @@ return (
                                             required
                                             type="number"
                                             value={row.agencyCommission}
-                                            onChange={(e) => handleInputChange(row.sn2, 'agencyCommission', Number(e.target.value))}
+                                            onChange={(e) => {
+                                                handleInputChange(row.sn2, 'agencyCommission', Number(e.target.value));
+                                                setAc(Number(e.target.value));
+                                            }}
                                             placeholder="...a.c"
                                         />
                                     </td>
@@ -593,7 +635,10 @@ return (
                                             required
                                             type="number"
                                             value={row.vat}
-                                            onChange={(e) => handleInputChange(row.sn2, 'vat', Number(e.target.value))}
+                                            onChange={(e) => {
+                                                handleInputChange(row.sn2, 'vat', Number(e.target.value));
+                                                setVat(Number(e.target.value));
+                                            }}
                                             placeholder="...vat"
                                         />
                                     </td>
@@ -621,7 +666,7 @@ return (
                     SCHEDULE
                 </div>
 
-                <div className="w-full overflow-x-auto ">
+                <div className="w-full custom-scroll-container">
                   <table className="w-full mt-[20px]">
                     <thead
                         className={`h-[20px] border-none font-semibold text-center text-white xl:text-[12px] lg:text-[11px] md:text-[10px] text-[9px]`}
